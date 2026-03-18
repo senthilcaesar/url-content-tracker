@@ -216,6 +216,14 @@ function App() {
               <span className="stat-value">{entries.length}</span>
             </div>
             <div className="stat-item">
+              <span className="stat-label">Pending</span>
+              <span className="stat-value">{entries.filter(i => i.status === 'Pending').length}</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-label">Archived</span>
+              <span className="stat-value">{entries.filter(i => i.status === 'Archived').length}</span>
+            </div>
+            <div className="stat-item">
               <span className="stat-label">Read</span>
               <span className="stat-value">{entries.filter(i => i.status === 'Read').length}</span>
             </div>
