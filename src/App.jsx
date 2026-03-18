@@ -207,13 +207,7 @@ function App() {
 
 
         
-        <div className="stats-bar" style={{ 
-          display: 'flex', 
-          justifyContent: 'space-between', 
-          alignItems: 'flex-end', 
-          marginBottom: 'var(--spacing-md)',
-          padding: '0 var(--spacing-xs)'
-        }}>
+        <div className="stats-bar collection-stats">
           <div>
             <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>
               {searchQuery.trim() ? (
@@ -224,16 +218,7 @@ function App() {
             </p>
           </div>
           {sortConfig.field && (
-            <div style={{ 
-              fontSize: '0.7rem', 
-              color: 'var(--primary)', 
-              fontWeight: 700, 
-              textTransform: 'uppercase', 
-              letterSpacing: '0.05em',
-              background: 'rgba(245, 158, 11, 0.1)',
-              padding: '2px 8px',
-              borderRadius: '4px'
-            }}>
+            <div className="sort-indicator">
               Sorted by {sortConfig.field}
             </div>
           )}

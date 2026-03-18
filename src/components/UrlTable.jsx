@@ -83,8 +83,8 @@ export function UrlTable({ entries, loading, searchQuery, sortConfig, onSort, on
             </tr>
           ) : (
             entries.map((entry) => (
-              <tr key={entry.id}>
-                <td data-label="Tag">
+              <tr key={entry.id} className="entry-row">
+                <td data-label="Tag" className="tag-cell">
                   <div className="td-content">
                     <div 
                       className="color-tag" 
@@ -93,45 +93,38 @@ export function UrlTable({ entries, loading, searchQuery, sortConfig, onSort, on
                     />
                   </div>
                 </td>
-                <td className="url-cell" data-label="URL">
+                <td className="url-cell primary-cell" data-label="URL">
                   <div className="td-content">
                     <a href={entry.url} target="_blank" rel="noopener noreferrer">
                       {highlightText(entry.url, searchQuery)} <ExternalLink size={12} />
                     </a>
                   </div>
                 </td>
-                <td data-label="Description">
+                <td className="description-cell" data-label="Description">
                   <div className="td-content">
-                    <div>{highlightText(entry.description, searchQuery)}</div>
+                    <div className="description-text">{highlightText(entry.description, searchQuery)}</div>
                     {entry.comments && (
-                      <div className="comments-preview" style={{ 
-                        fontSize: '0.75rem', 
-                        color: 'var(--text-muted)', 
-                        marginTop: '4px',
-                        fontStyle: 'italic',
-                        borderLeft: '2px solid var(--border)',
-                        paddingLeft: '8px'
-                      }}>
+                      <div className="comments-preview">
                         {highlightText(entry.comments, searchQuery)}
                       </div>
                     )}
                   </div>
                 </td>
-                <td data-label="Category">
+                <td className="category-cell meta-cell" data-label="Category">
                   <div className="td-content">
                     <span className="badge-category">
                       {highlightText(entry.category || 'None', searchQuery)}
                     </span>
                   </div>
                 </td>
-                <td data-label="Priority">
+                <td className="priority-cell meta-cell" data-label="Priority">
                   <div className="td-content">
                     <span className={`badge-priority ${getPriorityClass(entry.priority)}`}>
                       {entry.priority}
                     </span>
                   </div>
                 </td>
-                <td data-label="Status">
+                <td className="status-cell meta-cell" data-label="Status">
                   <div className="td-content">
                     <span className={`badge-status status-${entry.status.toLowerCase().replace(' ', '-')}`}>
                       {entry.status}

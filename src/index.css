@@ -295,6 +295,8 @@ header.glass {
   display: flex;
   align-items: center;
   gap: var(--spacing-md);
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .user-profile {
@@ -391,6 +393,38 @@ header.glass {
   
   .action-btn {
     order: 1;
+  }
+}
+
+.collection-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+  padding: 0 var(--spacing-xs);
+  flex-wrap: wrap;
+}
+
+.sort-indicator {
+  font-size: 0.7rem;
+  color: var(--primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: rgba(245, 158, 11, 0.1);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+  .collection-stats {
+    align-items: flex-start;
+    padding: 0;
+  }
+
+  .sort-indicator {
+    width: fit-content;
   }
 }
 
