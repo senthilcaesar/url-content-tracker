@@ -6,7 +6,8 @@ import {
   Clock, 
   Code, 
   LogOut, 
-  User
+  User,
+  X
 } from 'lucide-react';
 
 import { UrlForm } from './components/UrlForm';
@@ -139,6 +140,17 @@ function App() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
+              {searchQuery && (
+                <button
+                  type="button"
+                  className="search-clear-btn"
+                  onClick={() => setSearchQuery('')}
+                  title="Clear search"
+                  aria-label="Clear search"
+                >
+                  <X size={16} />
+                </button>
+              )}
             </div>
           </div>
 

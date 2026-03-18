@@ -127,6 +127,22 @@
   color: var(--text-muted);
 }
 
+.search-clear-btn {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.search-clear-btn:hover {
+  color: var(--secondary-color);
+  background: rgba(255, 255, 255, 0.06);
+}
+
 .btn-primary {
   background: var(--secondary-color);
   color: var(--surface-muted);
