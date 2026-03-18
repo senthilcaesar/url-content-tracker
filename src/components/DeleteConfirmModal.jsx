@@ -16,16 +16,28 @@ export const DeleteConfirmModal = ({ isOpen, onClose, onConfirm, itemName }) => 
           <div className="delete-icon-wrapper">
             <AlertTriangle size={32} className="warning-icon" />
           </div>
-          
-          <h2>Delete Entry?</h2>
-          <p className="delete-item-name">{itemName || 'This item'} will be permanently removed from your collection.</p>
+
+          <div className="delete-copy">
+            <span className="delete-eyebrow">Destructive action</span>
+            <h2>Delete this entry?</h2>
+            <p className="delete-description">
+              This will permanently remove it from your ZenShelf collection.
+            </p>
+          </div>
+
+          <div className="delete-item-preview">
+            <span className="delete-item-label">Selected entry</span>
+            <p className="delete-item-name">{itemName || 'This item'}</p>
+          </div>
+
+          <p className="delete-warning-text">This action cannot be undone.</p>
           
           <div className="delete-actions">
-            <button className="btn-secondary" onClick={onClose}>
-              No, Keep it
+            <button className="delete-cancel-btn" onClick={onClose}>
+              Keep Entry
             </button>
             <button className="btn-danger" onClick={onConfirm}>
-              <Trash2 size={18} /> Yes, Delete
+              <Trash2 size={18} /> Delete Entry
             </button>
           </div>
         </div>

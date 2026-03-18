@@ -1,18 +1,19 @@
 import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
-import './UrlForm.css';
 
 const STATUS_OPTIONS = ['Pending', 'In Progress', 'Read', 'Archived'];
+const CATEGORIES = ['Read Later', 'Work', 'Personal', 'Research', 'Tech', 'Inspiration'];
+const PRIORITIES = ['Low', 'Medium', 'High'];
 
 export function UrlForm({ onSubmit, onClose, editingEntry }) {
   const initialFormState = {
     url: '',
+    title: '',
     description: '',
-    category: '',
-    priority: 3,
-    colorCode: '#6366f1',
     status: 'Pending',
-    comments: ''
+    category: 'Read Later',
+    priority: 'Medium'
   };
 
   const [formData, setFormData] = useState(initialFormState);
@@ -25,14 +26,6 @@ export function UrlForm({ onSubmit, onClose, editingEntry }) {
     }
   }, [editingEntry]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: name === 'priority' ? parseInt(value, 10) : value
-    }));
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!formData.url) return;
@@ -42,107 +35,75 @@ export function UrlForm({ onSubmit, onClose, editingEntry }) {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content url-form-modal" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close" onClick={onClose} title="Close">
-          <X size={20} />
-        </button>
-        <form className="url-form" onSubmit={handleSubmit}>
-          <h2>{editingEntry ? 'Update Entry' : 'Add New Tracker'}</h2>
-      <div className="form-grid">
-        <div className="form-group full-width">
-          <label htmlFor="url">URL</label>
-          <input
-            type="url"
-            name="url"
-            id="url"
-            placeholder="https://example.com"
-            value={formData.url}
-            onChange={handleChange}
-            required
-          />
+      <motion.div 
+        initial={{ scale: 0.9, opacity: 0, y: 20 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.9, opacity: 0, y: 20 }}
+        className="modal-content" 
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="modal-header">
+          <h2>{editingEntry ? 'Edit Item' : 'Add to Shelf'}</h2>
+          <button className="close-btn" onClick={onClose}>&times;</button>
         </div>
         
-        <div className="form-group">
-          <label htmlFor="description">Description</label>
-          <input
-            type="text"
-            name="description"
-            id="description"
-            placeholder="What's this link about?"
-            value={formData.description}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="category">Category</label>
-          <input
-            type="text"
-            name="category"
-            id="category"
-            placeholder="Development, Reading, etc."
-            value={formData.category}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="priority">Priority</label>
-          <select name="priority" id="priority" value={formData.priority} onChange={handleChange}>
-            <option value="1">1 - Low</option>
-            <option value="2">2 - Medium</option>
-            <option value="3">3 - High</option>
-            <option value="4">4 - Urgent</option>
-            <option value="5">5 - Critical</option>
-          </select>
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="status">Status</label>
-          <select name="status" id="status" value={formData.status} onChange={handleChange}>
-            {STATUS_OPTIONS.map(opt => (
-              <option key={opt} value={opt}>{opt}</option>
-            ))}
-          </select>
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="colorCode">Color Tag</label>
-          <div className="color-picker-wrapper">
-            <input
-              type="color"
-              name="colorCode"
-              id="colorCode"
-              value={formData.colorCode}
-              onChange={handleChange}
+        <form onSubmit={handleSubmit} className="url-form">
+          <div className="form-group">
+            <label>URL</label>
+            <input 
+              type="url" 
+              required 
+              placeholder="https://example.com"
+              value={formData.url}
+              onChange={e => setFormData({...formData, url: e.target.value})}
             />
-            <span>{formData.colorCode}</span>
           </div>
-        </div>
+          
+          <div className="form-group">
+            <label>Title</label>
+            <input 
+              type="text" 
+              placeholder="Give it a name..."
+              value={formData.title}
+              onChange={e => setFormData({...formData, title: e.target.value})}
+            />
+          </div>
 
-        <div className="form-group full-width">
-          <label htmlFor="comments">Comments</label>
-          <textarea
-            name="comments"
-            id="comments"
-            rows="3"
-            placeholder="Add some notes..."
-            value={formData.comments}
-            onChange={handleChange}
-          ></textarea>
-        </div>
-      </div>
+          <div className="form-group">
+            <label>Description</label>
+            <textarea 
+              placeholder="What is this about?"
+              value={formData.description}
+              onChange={e => setFormData({...formData, description: e.target.value})}
+            />
+          </div>
 
-        <div className="form-actions">
-          <button type="submit" className="btn-primary">
-            {editingEntry ? 'Save Changes' : 'Add Entry'}
+          <div className="form-row">
+            <div className="form-group">
+              <label>Category</label>
+              <select 
+                value={formData.category}
+                onChange={e => setFormData({...formData, category: e.target.value})}
+              >
+                {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+              </select>
+            </div>
+            <div className="form-group">
+              <label>Priority</label>
+              <select 
+                value={formData.priority}
+                onChange={e => setFormData({...formData, priority: e.target.value})}
+              >
+                {PRIORITIES.map(p => <option key={p} value={p}>{p}</option>)}
+              </select>
+            </div>
+          </div>
+
+          <button type="submit" className="btn-submit">
+            {editingEntry ? 'Save Changes' : 'Add to Shelf'}
           </button>
-          <button type="button" className="btn-secondary" onClick={onClose}>
-            Cancel
-          </button>
-        </div>
-      </form>
+        </form>
+      </motion.div>
     </div>
-  </div>
   );
 }

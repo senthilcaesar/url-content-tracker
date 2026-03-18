@@ -1,0 +1,83 @@
+import React from 'react';
+import { motion } from 'framer-motion';
+import { ExternalLink, Trash2, Edit3, Tag } from 'lucide-react';
+
+const STATUSES = ['Pending', 'In Progress', 'Read', 'Archived'];
+
+export function UrlCard({ item, onEdit, onDelete, onStatusUpdate }) {
+  const getPriorityMeta = (priority) => {
+    if (typeof priority === 'string') {
+      const normalized = priority.toLowerCase();
+      if (['low', 'medium', 'high'].includes(normalized)) {
+        return {
+          label: priority,
+          className: normalized
+        };
+      }
+    }
+
+    const numericPriority = Number(priority);
+    if (!Number.isNaN(numericPriority)) {
+      if (numericPriority >= 4) {
+        return { label: `Priority ${numericPriority}`, className: 'high' };
+      }
+      if (numericPriority >= 2) {
+        return { label: `Priority ${numericPriority}`, className: 'medium' };
+      }
+      return { label: `Priority ${numericPriority}`, className: 'low' };
+    }
+
+    return { label: 'Medium', className: 'medium' };
+  };
+
+  const statusClass = (item.status || 'Pending').replace(/\s+/g, '').toLowerCase();
+  const priorityMeta = getPriorityMeta(item.priority);
+
+  return (
+    <motion.div 
+      layout
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      whileHover={{ y: -8 }}
+      className="url-card"
+    >
+      <div className="card-header">
+        <span className={`priority-badge ${priorityMeta.className}`}>
+          {priorityMeta.label}
+        </span>
+        <div className="card-actions">
+          <button onClick={() => onEdit(item)} title="Edit"><Edit3 size={16} /></button>
+          <button onClick={() => onDelete(item.id)} title="Delete"><Trash2 size={16} /></button>
+        </div>
+      </div>
+      
+      <div className="card-body">
+        <h3 className="card-title">{item.title || item.url}</h3>
+        <p className="card-desc">{item.description || 'No description provided.'}</p>
+        <div className="card-url">
+          <ExternalLink size={14} />
+          <a href={item.url} target="_blank" rel="noopener noreferrer">{item.url}</a>
+        </div>
+      </div>
+
+      <div className="card-footer">
+        <div className="card-meta">
+          <span className="category-tag">
+            <Tag size={12} />
+            {item.category || 'General'}
+          </span>
+        </div>
+        <div className="status-dropdown">
+          <select 
+            value={item.status || 'Pending'} 
+            onChange={(e) => onStatusUpdate(item.id, e.target.value)}
+            className={`status-select ${statusClass}`}
+          >
+            {STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
+          </select>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
