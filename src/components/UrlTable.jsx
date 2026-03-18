@@ -85,54 +85,68 @@ export function UrlTable({ entries, loading, searchQuery, sortConfig, onSort, on
             entries.map((entry) => (
               <tr key={entry.id}>
                 <td data-label="Tag">
-                  <div 
-                    className="color-tag" 
-                    style={{ backgroundColor: entry.colorCode }}
-                    title={entry.colorCode}
-                  />
+                  <div className="td-content">
+                    <div 
+                      className="color-tag" 
+                      style={{ backgroundColor: entry.colorCode }}
+                      title={entry.colorCode}
+                    />
+                  </div>
                 </td>
                 <td className="url-cell" data-label="URL">
-                  <a href={entry.url} target="_blank" rel="noopener noreferrer">
-                    {highlightText(entry.url, searchQuery)} <ExternalLink size={12} />
-                  </a>
+                  <div className="td-content">
+                    <a href={entry.url} target="_blank" rel="noopener noreferrer">
+                      {highlightText(entry.url, searchQuery)} <ExternalLink size={12} />
+                    </a>
+                  </div>
                 </td>
                 <td data-label="Description">
-                  <div>{highlightText(entry.description, searchQuery)}</div>
-                  {entry.comments && (
-                    <div className="comments-preview" style={{ 
-                      fontSize: '0.75rem', 
-                      color: 'var(--text-muted)', 
-                      marginTop: '4px',
-                      fontStyle: 'italic',
-                      borderLeft: '2px solid var(--border)',
-                      paddingLeft: '8px'
-                    }}>
-                      {highlightText(entry.comments, searchQuery)}
-                    </div>
-                  )}
+                  <div className="td-content">
+                    <div>{highlightText(entry.description, searchQuery)}</div>
+                    {entry.comments && (
+                      <div className="comments-preview" style={{ 
+                        fontSize: '0.75rem', 
+                        color: 'var(--text-muted)', 
+                        marginTop: '4px',
+                        fontStyle: 'italic',
+                        borderLeft: '2px solid var(--border)',
+                        paddingLeft: '8px'
+                      }}>
+                        {highlightText(entry.comments, searchQuery)}
+                      </div>
+                    )}
+                  </div>
                 </td>
                 <td data-label="Category">
-                  <span className="badge-category">
-                    {highlightText(entry.category || 'None', searchQuery)}
-                  </span>
+                  <div className="td-content">
+                    <span className="badge-category">
+                      {highlightText(entry.category || 'None', searchQuery)}
+                    </span>
+                  </div>
                 </td>
                 <td data-label="Priority">
-                  <span className={`badge-priority ${getPriorityClass(entry.priority)}`}>
-                    {entry.priority}
-                  </span>
+                  <div className="td-content">
+                    <span className={`badge-priority ${getPriorityClass(entry.priority)}`}>
+                      {entry.priority}
+                    </span>
+                  </div>
                 </td>
                 <td data-label="Status">
-                  <span className={`badge-status status-${entry.status.toLowerCase().replace(' ', '-')}`}>
-                    {entry.status}
-                  </span>
+                  <div className="td-content">
+                    <span className={`badge-status status-${entry.status.toLowerCase().replace(' ', '-')}`}>
+                      {entry.status}
+                    </span>
+                  </div>
                 </td>
                 <td className="actions-cell" data-label="Actions">
-                  <button onClick={() => onEdit(entry)} title="Edit">
-                    <Edit2 size={16} />
-                  </button>
-                  <button onClick={() => onDelete(entry.id)} title="Delete" className="delete-btn">
-                    <Trash2 size={16} />
-                  </button>
+                  <div className="td-content">
+                    <button onClick={() => onEdit(entry)} title="Edit">
+                      <Edit2 size={16} />
+                    </button>
+                    <button onClick={() => onDelete(entry.id)} title="Delete" className="delete-btn">
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))

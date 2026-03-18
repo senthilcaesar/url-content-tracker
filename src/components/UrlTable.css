@@ -241,15 +241,13 @@
   .url-table td {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start; /* Better for multi-line content */
     padding: var(--spacing-sm) var(--spacing-md);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    text-align: right;
   }
 
   .url-table td:last-child {
     border-bottom: none;
-    justify-content: center;
     padding-top: var(--spacing-md);
   }
 
@@ -257,13 +255,41 @@
     content: attr(data-label);
     font-weight: 700;
     text-transform: uppercase;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     color: var(--text-muted);
-    text-align: left;
+    min-width: 100px;
+    margin-right: var(--spacing-md);
+    padding-top: 2px;
+  }
+
+  .td-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+    gap: 4px;
+    min-width: 0; /* Enable shrinking/wrapping */
   }
 
   .url-cell {
     max-width: 100% !important;
+  }
+
+  .actions-cell .td-content {
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: var(--spacing-sm);
+  }
+}
+
+.td-content {
+  display: contents; /* Default for desktop to not break table layout */
+}
+
+@media (max-width: 768px) {
+  .td-content {
+    display: flex;
   }
 }
 

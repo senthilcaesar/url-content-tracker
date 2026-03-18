@@ -8,11 +8,18 @@ Before we start coding, we need to prepare our "Agentic" tools.
 > [!NOTE]
 > **Project Limits**: Most users have a limit on how many free Google Cloud projects they can own. If you get an error creating a project in Prompt 3, you may need to delete an old project or link a billing account (the Free Spark plan still applies).
 
-### 1. Install Gemini CLI & Firebase Extension
+### 1. Install Gemini CLI & Extensions
 The Gemini CLI brings terminal-based AI to your fingertips.
 ```bash
 # Install the Firebase extension for Gemini CLI
 gemini extensions install https://github.com/gemini-cli-extensions/firebase/
+
+# Install the Superpowers extension for Gemini CLI
+# Repo: https://github.com/obra/superpowers
+gemini extensions install https://github.com/obra/superpowers
+
+> [!TIP]
+> **Superpowers** is a complete software development workflow for your coding agents, built on top of a set of composable "skills" and some initial instructions that make sure your agent uses them.
 ```
 
 ### 2. Configure Mandatory MCP Servers in Antigravity
