@@ -214,9 +214,10 @@ input:focus, select:focus, textarea:focus {
   box-shadow: var(--shadow-lg);
   position: relative;
   animation: slideUp 400ms cubic-bezier(0, 0, 0.2, 1);
-  max-height: 95vh;
+  max-height: 90dvh;
   overflow-y: auto;
   border: 1px solid var(--border);
+  overscroll-behavior: contain;
 }
 
 .modal-close {

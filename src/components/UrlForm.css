@@ -28,7 +28,7 @@
   }
   
   .url-form {
-    padding: var(--spacing-lg) var(--spacing-md);
+    padding: var(--spacing-lg) var(--spacing-md) 120px var(--spacing-md); /* Extra bottom padding for mobile chrome */
   }
   
   .url-form h2 {
@@ -93,4 +93,5 @@
 .btn-secondary {
   background-color: transparent;
   color: var(--text-muted);
+  border: 1px solid var(--border);
 }
