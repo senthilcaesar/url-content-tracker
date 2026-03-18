@@ -35,7 +35,7 @@
 }
 
 .url-table tr {
-  transition: all var(--transition-normal);
+  transition: background-color var(--transition-normal), border-color var(--transition-normal), transform var(--transition-normal);
   border-left: 3px solid transparent;
 }
 
@@ -262,10 +262,12 @@
 
   .url-cell a {
     -webkit-line-clamp: 2;
+    line-clamp: 2;
   }
 
   .description-text {
     -webkit-line-clamp: 2;
+    line-clamp: 2;
   }
 
   .comments-preview {
@@ -318,7 +320,12 @@
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
     padding: var(--spacing-md);
-    transform: none !important; /* Disable hover slide on mobile */
+    
+    /* Hardware acceleration & Performance optimization for mobile */
+    transform: translateZ(0) !important;
+    will-change: transform;
+    backface-visibility: hidden;
+    transition: none !important; /* Disable all transitions for rows on mobile */
     box-shadow: var(--shadow-md);
   }
 

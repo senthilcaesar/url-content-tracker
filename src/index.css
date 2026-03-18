@@ -1,4 +1,5 @@
 :root {
+  scroll-behavior: smooth;
   /* Zen Deck Palette - Deep Obsidian & Amber */
   --primary: #f59e0b; /* Amber 500 */
   --primary-hover: #d97706;
