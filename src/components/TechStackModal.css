@@ -86,9 +86,13 @@
   box-shadow: var(--shadow-sm);
 }
 
-.arch-icon-box.primary { color: var(--primary); border-color: var(--primary); background: rgba(245, 158, 11, 0.05); }
-.arch-icon-box.auth { color: #FFCA28; border-color: #FFCA28; background: rgba(255, 202, 40, 0.05); }
-.arch-icon-box.cloud { color: #4285F4; border-color: #4285F4; background: rgba(66, 133, 244, 0.05); }
+.arch-icon-box.primary { color: var(--primary); border-color: var(--primary); background: rgba(176, 141, 87, 0.05); }
+.arch-icon-box.auth { color: #8c6b3e; border-color: #8c6b3e; background: rgba(140, 107, 62, 0.05); }
+.arch-icon-box.cloud { color: #7d6b5d; border-color: #7d6b5d; background: rgba(125, 107, 93, 0.05); }
+
+:root[data-theme='light'] .arch-icon-box.primary { background: rgba(176, 141, 87, 0.1); }
+:root[data-theme='light'] .arch-icon-box.auth { color: #a64d4d; border-color: #a64d4d; background: rgba(166, 77, 77, 0.1); }
+:root[data-theme='light'] .arch-icon-box.cloud { color: #7d6b5d; border-color: #7d6b5d; background: rgba(125, 107, 93, 0.1); }
 
 .arch-arrow {
   color: var(--border);

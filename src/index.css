@@ -40,20 +40,27 @@
 }
 
 :root[data-theme='light'] {
-  --primary: #d97706;
-  --primary-hover: #b45309;
-  --bg-main: #f9fafb; /* Slate 50 */
-  --bg-card: rgba(255, 255, 255, 0.8);
-  --bg-glass: rgba(0, 0, 0, 0.02);
-  --text-main: #111827; /* Gray 900 */
-  --text-muted: #4b5563; /* Gray 600 */
-  --border: rgba(0, 0, 0, 0.08);
-  --border-focus: rgba(217, 119, 6, 0.4);
+  --primary: #b08d57; /* Old gold / Brass */
+  --primary-hover: #8c6b3e;
+  --bg-main: #fcf8e8; /* Warm parchment */
+  --bg-card: rgba(67, 52, 34, 0.05);
+  --bg-glass: rgba(67, 52, 34, 0.02);
+  --text-main: #3d3021; /* Deep ink brown */
+  --text-muted: #6e5b4b; /* Muted stone brown */
+  --border: rgba(67, 52, 34, 0.15);
+  --border-focus: rgba(176, 141, 87, 0.4);
 
-  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-  --shadow-md: 0 4px 14px -3px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 20px 40px -8px rgba(0, 0, 0, 0.08);
-  --shadow-glass: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px 0 rgba(67, 52, 34, 0.1);
+  --shadow-md: 0 4px 14px -3px rgba(67, 52, 34, 0.1);
+  --shadow-lg: 0 20px 40px -8px rgba(67, 52, 34, 0.08);
+  --shadow-glass: inset 0 0 0 1px rgba(67, 52, 34, 0.05);
+}
+
+:root[data-theme='light'] body {
+  background-image: 
+    radial-gradient(circle at 10% 10%, rgba(176, 141, 87, 0.07) 0%, transparent 40%),
+    radial-gradient(circle at 90% 90%, rgba(110, 91, 75, 0.07) 0%, transparent 40%);
+  background-attachment: fixed;
 }
 
 * {
@@ -63,7 +70,7 @@
 }
 
 body {
-  font-family: 'Inter', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   background-color: var(--bg-main);
   color: var(--text-main);
   line-height: 1.6;
@@ -95,6 +102,7 @@ body {
 
 /* Typography Refinement */
 h1 {
+  font-family: 'Outfit', sans-serif;
   font-size: 2.5rem;
   font-weight: 800;
   letter-spacing: -0.04em;
@@ -106,6 +114,7 @@ h1 {
 }
 
 h2 {
+  font-family: 'Outfit', sans-serif;
   font-size: 1.35rem;
   font-weight: 600;
   letter-spacing: -0.02em;
@@ -129,13 +138,13 @@ button {
   background: var(--primary);
   color: white;
   padding: var(--spacing-sm) var(--spacing-lg);
-  box-shadow: 0 4px 14px 0 rgba(245, 158, 11, 0.39);
+  box-shadow: 0 4px 14px 0 rgba(176, 141, 87, 0.3);
 }
 
 .btn-primary:hover {
   background: var(--primary-hover);
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.23);
+  box-shadow: 0 6px 20px rgba(176, 141, 87, 0.2);
 }
 
 .btn-secondary {
@@ -276,7 +285,7 @@ header.glass {
   border-radius: var(--radius-md);
   color: white;
   display: flex;
-  box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
+  box-shadow: 0 0 20px rgba(176, 141, 87, 0.4);
 }
 
 .brand-logo {
