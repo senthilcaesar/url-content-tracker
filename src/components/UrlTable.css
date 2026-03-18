@@ -35,11 +35,14 @@
 
 .url-table tr {
   transition: all var(--transition-normal);
+  border-left: 3px solid transparent;
 }
 
 .url-table tr:hover {
-  background-color: rgba(255, 255, 255, 0.04);
-  transform: scale(1.002);
+  background-color: rgba(255, 255, 255, 0.05);
+  transform: translateX(4px);
+  border-left-color: var(--primary);
+  box-shadow: inset 10px 0 15px -10px rgba(245, 158, 11, 0.2);
 }
 
 /* Sorting */
@@ -183,41 +186,84 @@
   opacity: 0.6;
 }
 
+.loading-spinner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-xl) 0;
+}
+
+.loading-dots {
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  animation: pulse 2s infinite ease-in-out;
+  text-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
+}
+
+@keyframes pulse {
+  0%, 100% { 
+    opacity: 0.5; 
+    transform: scale(0.95);
+    filter: blur(1px);
+  }
+  50% { 
+    opacity: 1; 
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
 /* Responsive Table */
 @media (max-width: 768px) {
   .url-table thead {
     display: none;
   }
 
+  .url-table, .url-table tbody {
+    display: block;
+    width: 100%;
+  }
+
   .url-table tr {
     display: block;
     margin-bottom: var(--spacing-md);
-    padding: var(--spacing-md);
-    background: var(--bg-glass);
+    background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
+    padding: var(--spacing-sm);
+    transform: none !important; /* Disable hover slide on mobile */
   }
 
   .url-table td {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: var(--spacing-xs) 0;
+    padding: var(--spacing-sm) var(--spacing-md);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     text-align: right;
   }
 
   .url-table td:last-child {
     border-bottom: none;
-    padding-top: var(--spacing-sm);
+    justify-content: center;
+    padding-top: var(--spacing-md);
   }
 
   .url-table td::before {
     content: attr(data-label);
-    font-weight: 600;
-    color: var(--text-muted);
-    font-size: 0.75rem;
+    font-weight: 700;
     text-transform: uppercase;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-align: left;
+  }
+
+  .url-cell {
+    max-width: 100% !important;
   }
 }
 

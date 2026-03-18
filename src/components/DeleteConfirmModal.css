@@ -32,6 +32,13 @@
   width: 100%;
 }
 
+@media (max-width: 480px) {
+  .delete-actions {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+}
+
 .delete-actions button {
   flex: 1;
   padding: var(--spacing-md);

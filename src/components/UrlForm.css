@@ -20,6 +20,23 @@
   margin-bottom: var(--spacing-xl);
 }
 
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  .url-form {
+    padding: var(--spacing-lg) var(--spacing-md);
+  }
+  
+  .url-form h2 {
+    font-size: 1.5rem;
+    margin-bottom: var(--spacing-lg);
+  }
+}
+
 .full-width {
   grid-column: 1 / -1;
 }

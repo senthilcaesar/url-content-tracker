@@ -9,6 +9,13 @@
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+@media (max-width: 640px) {
+  .search-container {
+    margin-bottom: var(--spacing-lg);
+    height: 44px;
+  }
+}
+
 .search-container:focus-within {
   border-color: rgba(255, 255, 255, 0.2);
 }

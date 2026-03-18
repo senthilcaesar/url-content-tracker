@@ -53,11 +53,11 @@ cd url-content-tracker
 ```
 
 ### Prompt 1: The Soul (Logic & Data)
-> "I want to build a 'ZenShelf' React application using Vite. Use Lucide icons. The app is a URL tracker where users can save links, categories, and priority levels. Implement the core logic using React hooks (useState, useMemo) and local storage for now. Focus on a clean data structure and functional CRUD (Create, Read, Update, Delete) operations."
+> "I want to build a 'ZenShelf' React application using Vite. Use Lucide icons. The app is a URL tracker where users can save links, **descriptions, status (Pending, In Progress, Read, Archived),** categories, and priority levels. Implement the core logic using React hooks (useState, useMemo) and local storage for now. Focus on a clean data structure and functional CRUD (Create, Read, Update, Delete) operations."
 > *(**Invokes**: General Coding Assistant + local fs tools)*
 
 ### Prompt 2: The Vessel (Premium Design)
-> "Now, give ZenShelf a 'Zen Deck' aesthetic. Use vanilla CSS for styling. Implement a high-end dark mode by default with glassmorphism effects, vibrant accents (amber/emerald), and smooth micro-animations. The search bar should be prominent with a subtle glow. Ensure every interaction feels fluid and premium. Use a modern font like 'Inter' or 'Outfit'."
+> "Now, give ZenShelf a 'Zen Deck' aesthetic. Use vanilla CSS for styling. Implement a high-end dark mode by default with glassmorphism effects, vibrant accents (amber/emerald), and smooth micro-animations. **The app must be fully responsive, with a card-based layout for mobile and a compact sticky header.** The search bar should be prominent with a subtle glow. **Add sorting for all columns, including Status.** Ensure every interaction, like a horizontal slide row hover effect, feels fluid and premium. Use a modern font like 'Inter' or 'Outfit'."
 > *(**Invokes**: **21st.dev magic** & **StitchMCP** for UI system design and component inspiration)*
 
 #### 🧪 Milestone: Visual Verification
@@ -119,15 +119,32 @@ Now we'll make sure your app deploys automatically whenever you push code.
    > 
    > This is the #1 reason why beginners see a blank white page after deploying!
 
+## ✨ Stage 4: Polishing & Mobile Optimization
+Once the core app is running in the cloud, it's time to refine the user experience for all devices.
+
+### 1. Advanced Sorting
+Users can now sort their curation by **Priority** (numeric), **Category** (alphabetical), and **Status** (alphabetical). 
+- **Status Sorting**: Crucial for tracking your progress through "Read" or "Archived" items.
+- **Micro-Animations**: Table rows now feature a horizontal slide effect on hover, providing instant visual feedback.
+
+### 2. Mobile-First Experience
+ZenShelf is designed to be fully functional on the go.
+- **Card View**: On mobile devices, rows automatically transform into beautiful, easy-to-read cards.
+- **Adaptive Forms**: Complex grids switch to a single-column layout on small screens for easy input.
+- **Responsive Header**: Actions like "Add New" and "Theme Toggle" dynamically adjust their labels or stack to stay within reach.
+
+---
+
 ## 📚 Important Concepts for Beginners
 - **Agent Skills (The "Brain")**: These provide the AI with **authoritative expertise** on specific technologies like Firebase. They ensure the code follow the latest best practices, preventing bugs and security vulnerabilities.
 - **MCP Server (The "Hands")**: This is the **bridge** that gives the AI the **capability** to perform real-world actions (like creating a database, repository, or UI design) through specialized tools.
 - **Slash Commands (e.g., `/firebase_init`)**: These are shortcuts provided by the **Firebase MCP server**. When you type them, the AI knows exactly which specialized tool to use to configure your project.
 - **Optimistic UI**: A trick where the app *appears* to finish an action (like deleting a row) instantly, while it syncs with the database in the background.
+- **Responsive Transformation**: The technique of switching from a data table to a card-based layout to maintain usability on vertical mobile screens.
 
 ## 🐞 Solving UI Glitches
 AI isn't perfect! If you see a button that doesn't work or a window that's clipped (like a modal hiding at the bottom), just tell Antigravity exactly what you see:
 > "The tech stack modal is partially hidden at the bottom and I can't see the full content. Fix the CSS so it fits or scrolls properly."
 
 ---
-*Created for the "Build and Deploy with Agent Skills and MCP" tutorial session.*
+*Created for the "Build and Deploy with Agent Skills and MCP" tutorial session. Updated March 2026 with Mobile & Sorting Enhancements.*

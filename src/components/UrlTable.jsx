@@ -2,7 +2,7 @@ import React from 'react';
 import { ArrowUp, ArrowDown, Edit2, Trash2, ExternalLink } from 'lucide-react';
 import './UrlTable.css';
 
-export function UrlTable({ entries, searchQuery, sortConfig, onSort, onEdit, onDelete }) {
+export function UrlTable({ entries, loading, searchQuery, sortConfig, onSort, onEdit, onDelete }) {
   const getSortIcon = (field) => {
     if (sortConfig.field !== field) return null;
     return sortConfig.direction === 'asc' ? <ArrowUp size={16} /> : <ArrowDown size={16} />;
@@ -56,12 +56,28 @@ export function UrlTable({ entries, searchQuery, sortConfig, onSort, onEdit, onD
                 Priority {getSortIcon('priority')}
               </button>
             </th>
-            <th>Status</th>
+            <th 
+              onClick={() => onSort('status')} 
+              className="sortable"
+              aria-sort={sortConfig.field === 'status' ? sortConfig.direction + 'ending' : 'none'}
+            >
+              <button type="button" className="sort-btn">
+                Status {getSortIcon('status')}
+              </button>
+            </th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {entries.length === 0 ? (
+          {loading ? (
+            <tr>
+              <td colSpan="7" className="empty-state">
+                <div className="loading-spinner-container">
+                  <div className="loading-dots">Initializing Collection...</div>
+                </div>
+              </td>
+            </tr>
+          ) : entries.length === 0 ? (
             <tr>
               <td colSpan="7" className="empty-state">No entries found. Add one above!</td>
             </tr>

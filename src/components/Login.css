@@ -16,6 +16,16 @@
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
+@media (max-width: 480px) {
+  .login-card {
+    padding: var(--spacing-xl) var(--spacing-lg);
+  }
+  
+  .login-header h1 {
+    font-size: 2rem;
+  }
+}
+
 .login-icon {
   width: 64px;
   height: 64px;

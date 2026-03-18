@@ -141,90 +141,56 @@ function App() {
 
   return (
     <div className="container" style={{ paddingBottom: 'var(--spacing-xl)' }}>
-      <header className="glass" style={{ 
-        display: 'flex', 
-        alignItems: 'center', 
-        justifyContent: 'space-between',
-        marginBottom: 'var(--spacing-md)',
-        padding: 'var(--spacing-md) var(--spacing-lg)',
-        borderRadius: 'var(--radius-lg)',
-        flexWrap: 'wrap',
-        gap: 'var(--spacing-md)',
-        position: 'sticky',
-        top: 'var(--spacing-md)',
-        zIndex: 100
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-md)' }}>
-          <div style={{ 
-            padding: 'var(--spacing-sm)', 
-            background: 'var(--primary)', 
-            borderRadius: 'var(--radius-md)', 
-            color: 'white', 
-            display: 'flex',
-            boxShadow: '0 0 20px rgba(245, 158, 11, 0.4)'
-          }}>
+      <header className="glass main-header">
+        <div className="header-brand">
+          <div className="brand-icon">
             <Layout size={24} />
           </div>
-          <div>
-            <h1 className="brand-logo" style={{ margin: 0, fontSize: '1.5rem' }}>ZenShelf</h1>
-            <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 500, letterSpacing: '0.05em', textTransform: 'uppercase' }}>Intelligence & Curation</p>
+          <div className="brand-text">
+            <h1 className="brand-logo">ZenShelf</h1>
+            <p className="brand-tagline">Intelligence & Curation</p>
           </div>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-md)' }}>
-          <div className="user-profile" style={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            gap: 'var(--spacing-sm)',
-            padding: '4px 12px',
-            background: 'var(--bg-muted)',
-            borderRadius: 'var(--radius-pill)',
-            border: '1px solid var(--border)'
-          }}>
+        <div className="header-actions">
+          <div className="user-profile">
             {user.photoURL ? (
-              <img src={user.photoURL} alt={user.displayName} style={{ width: 24, height: 24, borderRadius: '50%' }} />
+              <img src={user.photoURL} alt={user.displayName} className="user-avatar" />
             ) : (
               <User size={20} />
             )}
-            <span style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text)' }} className="hide-mobile">
+            <span className="user-name hide-mobile">
               {user.displayName?.split(' ')[0]}
             </span>
             <button 
               onClick={logout}
-              className="btn-secondary"
+              className="logout-btn"
               title="Logout"
-              style={{ padding: '6px', minWidth: 'auto', border: 'none', background: 'transparent' }}
             >
               <LogOut size={16} />
             </button>
           </div>
+          
           <button 
             onClick={() => setIsTechStackOpen(true)}
-            className="btn-secondary"
+            className="btn-secondary action-btn"
             title="View Tech Stack"
           >
             <Code size={18} /> <span className="hide-mobile">Tech Stack</span>
           </button>
           
           <button 
-            onClick={toggleTheme} 
-            className="btn-secondary"
-            title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-            style={{ 
-              fontSize: '1.2rem', 
-              width: '40px',
-              height: '40px',
-              padding: 0,
-              minWidth: '40px'
-            }}
-          >
-            {theme === 'light' ? '☀️' : '🌙'}
-          </button>
-
-          <button 
-            className="btn-primary" 
+            className="btn-primary action-btn" 
             onClick={() => { setEditingEntry(null); setIsFormOpen(true); }}
           >
             <Plus size={18} /> <span className="hide-mobile">Add New</span>
+          </button>
+          
+          <button 
+            onClick={toggleTheme} 
+            className="btn-secondary theme-toggle-btn"
+            title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+          >
+            {theme === 'light' ? '☀️' : '🌙'}
           </button>
         </div>
       </header>
@@ -275,6 +241,7 @@ function App() {
 
         <UrlTable 
           entries={sortedEntries}
+          loading={dbLoading}
           searchQuery={searchQuery}
           sortConfig={sortConfig}
           onSort={handleSort}
