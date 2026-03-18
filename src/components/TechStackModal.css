@@ -150,11 +150,16 @@
 }
 
 @media (max-width: 640px) {
+  .modal-content.tech-stack-modal {
+    padding-top: 3rem;
+  }
+
   .tech-stack-modal .modal-close {
     top: 0.75rem;
     right: 0.75rem;
     width: 34px;
     height: 34px;
+    z-index: 10;
   }
 
   .tech-stack-container {
