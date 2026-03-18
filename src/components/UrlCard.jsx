@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, Trash2, Edit3, Tag } from 'lucide-react';
+import { ExternalLink, Trash2, Edit3, Tag, ChevronDown } from 'lucide-react';
 
 const STATUSES = ['Pending', 'In Progress', 'Read', 'Archived'];
 
@@ -76,6 +76,7 @@ export function UrlCard({ item, onEdit, onDelete, onStatusUpdate }) {
           >
             {STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
           </select>
+          <ChevronDown size={14} className="status-chevron" aria-hidden="true" />
         </div>
       </div>
     </motion.div>
