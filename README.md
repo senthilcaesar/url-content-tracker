@@ -15,11 +15,14 @@
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: React 19, Vite
-- **Styling**: Vanilla CSS (Custom Variable System)
+- **Frontend Framework**: React 19
+- **Build Tooling**: Vite 8 with `@vitejs/plugin-react`
+- **Animations**: Framer Motion
+- **Styling System**: Vanilla CSS with a custom token-based dark/light theme system
 - **Icons**: Lucide React
-- **Backend/Storage**: Cloud Firestore (NoSQL)
-- **Authentication**: Firebase Auth (Google Sign-In)
+- **Authentication**: Firebase Authentication with Google Sign-In
+- **Database**: Cloud Firestore with realtime sync and persistent local cache
+- **Deployment**: GitHub Pages via GitHub Actions CI/CD workflow
 
 ## 🚀 Getting Started
 
