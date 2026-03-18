@@ -590,6 +590,25 @@
   color: var(--text-main);
 }
 
+.form-group select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--text-muted) 50%),
+    linear-gradient(135deg, var(--text-muted) 50%, transparent 50%);
+  background-position:
+    calc(100% - 18px) calc(50% - 3px),
+    calc(100% - 12px) calc(50% - 3px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: 2.5rem;
+}
+
+.form-group select option {
+  background: var(--surface-strong);
+  color: var(--text-main);
+}
+
 .form-group textarea {
   min-height: 120px;
   resize: vertical;
@@ -744,6 +763,11 @@
 [data-theme='light'] .form-group select:focus,
 [data-theme='light'] .form-group textarea:focus {
   background: #ffffff;
+}
+
+[data-theme='light'] .form-group select option {
+  background: #ffffff;
+  color: #2c3333;
 }
 
 @media (max-width: 640px) {
