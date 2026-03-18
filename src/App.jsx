@@ -170,20 +170,22 @@ function App() {
             </button>
           </div>
           
-          <button 
-            onClick={() => setIsTechStackOpen(true)}
-            className="btn-secondary action-btn"
-            title="View Tech Stack"
-          >
-            <Code size={18} /> <span className="hide-mobile">Tech Stack</span>
-          </button>
-          
-          <button 
-            className="btn-primary action-btn" 
-            onClick={() => { setEditingEntry(null); setIsFormOpen(true); }}
-          >
-            <Plus size={18} /> <span className="hide-mobile">Add New</span>
-          </button>
+          <div className="header-controls-group">
+            <button 
+              onClick={() => setIsTechStackOpen(true)}
+              className="btn-secondary action-btn"
+              title="View Tech Stack"
+            >
+              <Code size={18} /> <span className="hide-mobile">Tech Stack</span>
+            </button>
+            
+            <button 
+              className="btn-primary action-btn" 
+              onClick={() => { setEditingEntry(null); setIsFormOpen(true); }}
+            >
+              <Plus size={18} /> <span className="hide-mobile">Add New</span>
+            </button>
+          </div>
           
           <button 
             onClick={toggleTheme} 
