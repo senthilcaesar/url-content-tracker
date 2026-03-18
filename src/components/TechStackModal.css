@@ -1,6 +1,7 @@
 .tech-stack-modal {
   max-width: 650px; /* Slightly wider for the tech grid */
   padding: 0;
+  background: var(--bg-main); /* Make it 100% opaque */
   /* Remove overflow: hidden to allow index.css .modal-content scrolling to work */
 }
 
@@ -15,15 +16,6 @@
   gap: var(--spacing-sm);
   margin-bottom: var(--spacing-xl);
   text-align: center;
-}
-
-.tech-stack-icon {
-  color: var(--primary);
-  background: var(--bg-glass);
-  padding: var(--spacing-md);
-  border-radius: 50%;
-  border: 1px solid var(--border);
-  margin-bottom: var(--spacing-sm);
 }
 
 .tech-stack-header h2 {

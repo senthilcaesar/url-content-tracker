@@ -52,7 +52,6 @@ export const TechStackModal = ({ isOpen, onClose }) => {
         </button>
         <div className="tech-stack-container">
           <div className="tech-stack-header">
-            <Code size={32} className="tech-stack-icon" />
             <h2>System Architecture</h2>
             <p className="intro-text">High-performance foundations powering your personal intelligence Nexus.</p>
           </div>
