@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, Trash2, Edit3, Tag, ChevronDown } from 'lucide-react';
+import { ExternalLink, Trash2, Edit3, Tag, ChevronDown, CalendarDays } from 'lucide-react';
 
 const STATUSES = ['Pending', 'In Progress', 'Read', 'Archived'];
 
@@ -41,8 +41,25 @@ export function UrlCard({ item, viewMode = 'card', onEdit, onDelete, onStatusUpd
     return { label: 'Medium', className: 'medium' };
   };
 
+  const getFormattedDate = () => {
+    const rawDate = item.createdDate || item.createdAt;
+    if (!rawDate) return 'Date unknown';
+
+    const parsedDate = new Date(rawDate);
+    if (Number.isNaN(parsedDate.getTime())) {
+      return 'Date unknown';
+    }
+
+    return new Intl.DateTimeFormat('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    }).format(parsedDate);
+  };
+
   const statusClass = (item.status || 'Pending').replace(/\s+/g, '').toLowerCase();
   const priorityMeta = getPriorityMeta(item.priority);
+  const formattedDate = getFormattedDate();
 
   if (viewMode === 'list') {
     return (
@@ -80,6 +97,10 @@ export function UrlCard({ item, viewMode = 'card', onEdit, onDelete, onStatusUpd
             <span className="category-tag">
               <Tag size={12} />
               {item.category || 'General'}
+            </span>
+            <span className="date-tag">
+              <CalendarDays size={12} />
+              {formattedDate}
             </span>
             <div className="card-url">
               <ExternalLink size={14} />
@@ -131,6 +152,10 @@ export function UrlCard({ item, viewMode = 'card', onEdit, onDelete, onStatusUpd
           <span className="category-tag">
             <Tag size={12} />
             {item.category || 'General'}
+          </span>
+          <span className="date-tag">
+            <CalendarDays size={12} />
+            {formattedDate}
           </span>
         </div>
         <div className="status-dropdown">

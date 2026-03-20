@@ -12,6 +12,25 @@ import {
   where
 } from 'firebase/firestore';
 
+const getTodayDateString = () => {
+  const now = new Date();
+  const localDate = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
+  return localDate.toISOString().slice(0, 10);
+};
+
+const toCreatedAtIso = (dateString) => {
+  if (typeof dateString !== 'string' || !dateString) {
+    return new Date().toISOString();
+  }
+
+  const parsedDate = new Date(`${dateString}T12:00:00`);
+  if (Number.isNaN(parsedDate.getTime())) {
+    return new Date().toISOString();
+  }
+
+  return parsedDate.toISOString();
+};
+
 export function useFirestore(userId) {
   const [entries, setEntries] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -46,19 +65,30 @@ export function useFirestore(userId) {
 
   const addEntry = async (entry) => {
     if (!userId) return;
+
+    const createdDate = entry.createdDate || getTodayDateString();
+
     await addDoc(collection(db, 'entries'), {
       ...entry,
       userId,
-      createdAt: new Date().toISOString()
+      createdDate,
+      createdAt: toCreatedAtIso(createdDate)
     });
   };
 
   const updateEntry = async (id, entry) => {
     const docRef = doc(db, 'entries', id);
-    await updateDoc(docRef, {
+    const updatePayload = {
       ...entry,
       updatedAt: new Date().toISOString()
-    });
+    };
+
+    if (Object.prototype.hasOwnProperty.call(entry, 'createdDate')) {
+      updatePayload.createdDate = entry.createdDate || getTodayDateString();
+      updatePayload.createdAt = toCreatedAtIso(updatePayload.createdDate);
+    }
+
+    await updateDoc(docRef, updatePayload);
   };
 
   const deleteEntry = async (id) => {

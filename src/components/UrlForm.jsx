@@ -6,6 +6,20 @@ const STATUS_OPTIONS = ['Pending', 'In Progress', 'Read', 'Archived'];
 const CATEGORIES = ['Read Later', 'Work', 'Personal', 'Research', 'Tech', 'Inspiration'];
 const PRIORITIES = ['Low', 'Medium', 'High'];
 
+const getTodayInputValue = () => {
+  const now = new Date();
+  const localDate = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
+  return localDate.toISOString().slice(0, 10);
+};
+
+const getEntryDateValue = (entry) => {
+  if (entry?.createdDate) return entry.createdDate;
+  if (typeof entry?.createdAt === 'string' && entry.createdAt.length >= 10) {
+    return entry.createdAt.slice(0, 10);
+  }
+  return getTodayInputValue();
+};
+
 export function UrlForm({ onSubmit, onClose, editingEntry }) {
   const initialFormState = {
     url: '',
@@ -13,14 +27,19 @@ export function UrlForm({ onSubmit, onClose, editingEntry }) {
     description: '',
     status: 'Pending',
     category: 'Read Later',
-    priority: 'Medium'
+    priority: 'Medium',
+    createdDate: getTodayInputValue()
   };
 
   const [formData, setFormData] = useState(initialFormState);
 
   useEffect(() => {
     if (editingEntry) {
-      setFormData(editingEntry);
+      setFormData({
+        ...initialFormState,
+        ...editingEntry,
+        createdDate: getEntryDateValue(editingEntry)
+      });
     } else {
       setFormData(initialFormState);
     }
@@ -96,6 +115,26 @@ export function UrlForm({ onSubmit, onClose, editingEntry }) {
               >
                 {PRIORITIES.map(p => <option key={p} value={p}>{p}</option>)}
               </select>
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
+              <label>Status</label>
+              <select
+                value={formData.status}
+                onChange={e => setFormData({...formData, status: e.target.value})}
+              >
+                {STATUS_OPTIONS.map(status => <option key={status} value={status}>{status}</option>)}
+              </select>
+            </div>
+            <div className="form-group">
+              <label>Created Date</label>
+              <input
+                type="date"
+                value={formData.createdDate}
+                onChange={e => setFormData({...formData, createdDate: e.target.value})}
+              />
             </div>
           </div>
 
