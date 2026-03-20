@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
 import { 
   Plus, 
   Search, 
@@ -7,7 +7,9 @@ import {
   Code, 
   LogOut, 
   User,
-  X
+  X,
+  LayoutGrid,
+  List
 } from 'lucide-react';
 
 import { UrlForm } from './components/UrlForm';
@@ -35,11 +37,16 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState('All');
   const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark');
+  const [viewMode, setViewMode] = useState(() => localStorage.getItem('viewMode') || 'card');
 
   useEffect(() => {
     localStorage.setItem('theme', theme);
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
+
+  useEffect(() => {
+    localStorage.setItem('viewMode', viewMode);
+  }, [viewMode]);
 
   const toggleTheme = () => {
     setTheme(prev => prev === 'light' ? 'dark' : 'light');
@@ -164,6 +171,15 @@ function App() {
                 <span>Add Link</span>
               </button>
 
+              <button
+                onClick={() => setViewMode(prev => prev === 'card' ? 'list' : 'card')}
+                className="header-icon-btn"
+                title={`Switch to ${viewMode === 'card' ? 'list' : 'card'} view`}
+                aria-label={`Switch to ${viewMode === 'card' ? 'list' : 'card'} view`}
+              >
+                {viewMode === 'card' ? <List size={18} /> : <LayoutGrid size={18} />}
+              </button>
+
               <button 
                 onClick={() => setIsTechStackOpen(true)}
                 className="header-icon-btn"
@@ -246,8 +262,13 @@ function App() {
           </div>
         </aside>
 
-        <section className="shelf-grid">
-          <AnimatePresence mode="popLayout">
+        <LayoutGroup id="shelf-layout">
+        <motion.section
+          layout
+          transition={{ layout: { duration: 0.34, ease: [0.22, 1, 0.36, 1] } }}
+          className={`shelf-grid ${viewMode === 'list' ? 'list-view' : 'card-view'}`}
+        >
+          <AnimatePresence initial={false} mode="sync">
             {dbLoading ? (
                <div className="empty-state">
                     <h3>Synchronizing...</h3>
@@ -269,6 +290,7 @@ function App() {
                 <UrlCard 
                   key={item.id}
                   item={item}
+                  viewMode={viewMode}
                   onEdit={startEditing}
                   onDelete={handleDeleteClick}
                   onStatusUpdate={updateItemStatus}
@@ -276,7 +298,8 @@ function App() {
               ))
             )}
           </AnimatePresence>
-        </section>
+        </motion.section>
+        </LayoutGroup>
       </main>
 
       <footer style={{ padding: '2rem', textAlign: 'center', opacity: 0.5, fontSize: '0.8rem' }}>
