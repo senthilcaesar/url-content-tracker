@@ -1179,3 +1179,66 @@
     padding: 3rem 1.25rem;
   }
 }
+
+/* ── Color Reminder Swatches ─────────────────────────────────────── */
+.color-swatch-row {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.color-swatch {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  background: rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  outline: none;
+  position: relative;
+}
+
+.color-swatch:hover {
+  transform: scale(1.18);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.color-swatch.selected {
+  border-color: #fff;
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.25), 0 0 14px 2px currentColor;
+  transform: scale(1.14);
+}
+
+/* "No color" swatch */
+.color-swatch:first-child {
+  background: rgba(255, 255, 255, 0.06);
+  border-style: dashed;
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.color-swatch:first-child.selected {
+  border-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.15);
+}
+
+.color-swatch-none {
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1;
+  pointer-events: none;
+}
+
+[data-theme='light'] .color-swatch:first-child {
+  background: rgba(0,0,0,0.04);
+  border-color: rgba(0,0,0,0.2);
+}
+
+[data-theme='light'] .color-swatch-none {
+  color: #888;
+}

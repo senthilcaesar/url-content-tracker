@@ -61,6 +61,24 @@ export function UrlCard({ item, viewMode = 'card', onEdit, onDelete, onStatusUpd
   const priorityMeta = getPriorityMeta(item.priority);
   const formattedDate = getFormattedDate();
 
+  const COLOR_HEX = {
+    red:    '#ef4444',
+    orange: '#f97316',
+    yellow: '#eab308',
+    green:  '#22c55e',
+    cyan:   '#06b6d4',
+    blue:   '#3b82f6',
+    purple: '#a855f7',
+  };
+  const accentColor = item.color && item.color !== 'none' ? COLOR_HEX[item.color] : null;
+  const accentStyle = accentColor
+    ? {
+        background: `linear-gradient(135deg, ${accentColor}33 0%, ${accentColor}22 50%, ${accentColor}14 100%)`,
+        borderColor: `${accentColor}88`,
+        boxShadow: `0 0 0 1px ${accentColor}44, 0 8px 32px ${accentColor}28`,
+      }
+    : {};
+
   if (viewMode === 'list') {
     return (
       <motion.div
@@ -70,6 +88,7 @@ export function UrlCard({ item, viewMode = 'card', onEdit, onDelete, onStatusUpd
         exit={{ opacity: 0, scale: 0.98 }}
         whileHover={{ y: -3, scale: 1.003 }}
         className="url-card list-view-card"
+        style={accentStyle}
       >
         <div className="list-main">
           <div className="list-topline">
@@ -127,6 +146,7 @@ export function UrlCard({ item, viewMode = 'card', onEdit, onDelete, onStatusUpd
       exit={{ opacity: 0, scale: 0.95 }}
       whileHover={viewMode === 'card' ? { y: -8 } : undefined}
       className={`url-card ${viewMode === 'list' ? 'list-view-card' : ''}`}
+      style={accentStyle}
     >
       <div className="card-header">
         <span className={`priority-badge ${priorityMeta.className}`}>

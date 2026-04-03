@@ -6,6 +6,17 @@ const STATUS_OPTIONS = ['Pending', 'In Progress', 'Read', 'Archived'];
 const CATEGORIES = ['Read Later', 'Work', 'Personal', 'Research', 'Tech', 'Inspiration'];
 const PRIORITIES = ['Low', 'Medium', 'High'];
 
+const COLOR_OPTIONS = [
+  { value: 'none',   label: 'No color', hex: null },
+  { value: 'red',    label: 'Red',      hex: '#ef4444' },
+  { value: 'orange', label: 'Orange',   hex: '#f97316' },
+  { value: 'yellow', label: 'Yellow',   hex: '#eab308' },
+  { value: 'green',  label: 'Green',    hex: '#22c55e' },
+  { value: 'cyan',   label: 'Cyan',     hex: '#06b6d4' },
+  { value: 'blue',   label: 'Blue',     hex: '#3b82f6' },
+  { value: 'purple', label: 'Purple',   hex: '#a855f7' },
+];
+
 const getTodayInputValue = () => {
   const now = new Date();
   const localDate = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
@@ -28,6 +39,7 @@ export function UrlForm({ onSubmit, onClose, editingEntry }) {
     status: 'Pending',
     category: 'Read Later',
     priority: 'Medium',
+    color: 'none',
     createdDate: getTodayInputValue()
   };
 
@@ -135,6 +147,26 @@ export function UrlForm({ onSubmit, onClose, editingEntry }) {
                 value={formData.createdDate}
                 onChange={e => setFormData({...formData, createdDate: e.target.value})}
               />
+            </div>
+          </div>
+
+          <div className="form-group">
+            <label>Reminder Color</label>
+            <div className="color-swatch-row">
+              {COLOR_OPTIONS.map(({ value, label, hex }) => (
+                <button
+                  key={value}
+                  type="button"
+                  title={label}
+                  className={`color-swatch${formData.color === value ? ' selected' : ''}`}
+                  style={hex ? { background: hex } : undefined}
+                  onClick={() => setFormData({ ...formData, color: value })}
+                  aria-label={label}
+                  aria-pressed={formData.color === value}
+                >
+                  {value === 'none' && <span className="color-swatch-none">∅</span>}
+                </button>
+              ))}
             </div>
           </div>
 
