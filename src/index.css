@@ -1,66 +1,66 @@
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Outfit:wght@100..900&display=swap');
+/* Removed obsolete font import as fonts are now loaded in index.html */
 
 :root {
-  --bg-color: #111413;
-  --surface-color: rgba(28, 34, 33, 0.88);
-  --surface-strong: #1b2221;
-  --surface-muted: #141918;
-  --primary-color: #9aad99;
-  --primary-hover: #bccecb;
-  --secondary-color: #f3efe4;
-  --accent-color: #d4a373;
-  --text-main: #f6f2e8;
-  --text-muted: #9aa89a;
-  --border-color: rgba(154, 173, 153, 0.18);
+  --bg-color: #141413;
+  --surface-color: rgba(30, 30, 28, 0.88);
+  --surface-strong: #1e1e1c;
+  --surface-muted: #1a1a18;
+  --primary-color: #d97757;
+  --primary-hover: #c46445;
+  --secondary-color: #faf9f5;
+  --accent-color: #6a9bcc;
+  --text-main: #faf9f5;
+  --text-muted: #b0aea5;
+  --border-color: rgba(176, 174, 165, 0.18);
   --shadow-sm: 0 8px 20px rgba(0, 0, 0, 0.22);
   --shadow-md: 0 18px 40px rgba(0, 0, 0, 0.28);
-  --radius-sm: 8px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
-  --font-heading: 'Bricolage Grotesque', sans-serif;
-  --font-body: 'Outfit', sans-serif;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --font-heading: 'Poppins', Arial, sans-serif;
+  --font-body: 'Lora', Georgia, serif;
   
-  --status-pending: rgba(148, 163, 184, 0.18);
-  --status-pending-text: #d5dde8;
-  --status-inprogress: rgba(245, 158, 11, 0.18);
-  --status-inprogress-text: #f7c972;
-  --status-read: rgba(34, 197, 94, 0.18);
-  --status-read-text: #7be495;
-  --status-archived: rgba(239, 68, 68, 0.16);
-  --status-archived-text: #f2a5a5;
+  --status-pending: rgba(176, 174, 165, 0.18);
+  --status-pending-text: #b0aea5;
+  --status-inprogress: rgba(217, 119, 87, 0.18);
+  --status-inprogress-text: #d97757;
+  --status-read: rgba(120, 140, 93, 0.18);
+  --status-read-text: #788c5d;
+  --status-archived: rgba(106, 155, 204, 0.16);
+  --status-archived-text: #6a9bcc;
 
-  --priority-low: #8ca38c;
-  --priority-medium: #d4a373;
-  --priority-high: #d66b6d;
+  --priority-low: #788c5d;
+  --priority-medium: #d97757;
+  --priority-high: #cc4f38;
 }
 
 [data-theme='light'] {
-  --bg-color: #f9f7f2;
+  --bg-color: #faf9f5;
   --surface-color: rgba(255, 255, 255, 0.82);
   --surface-strong: #ffffff;
-  --surface-muted: #f1eee5;
-  --primary-color: #7d8c7c;
-  --primary-hover: #6b7a6a;
-  --secondary-color: #2c3333;
-  --accent-color: #d4a373;
-  --text-main: #2c3333;
-  --text-muted: #6b7a6a;
-  --border-color: rgba(125, 140, 124, 0.2);
+  --surface-muted: #f2f1ec;
+  --primary-color: #d97757;
+  --primary-hover: #c46445;
+  --secondary-color: #141413;
+  --accent-color: #6a9bcc;
+  --text-main: #141413;
+  --text-muted: #b0aea5;
+  --border-color: rgba(20, 20, 19, 0.12);
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
 
-  --status-pending: #e9ecef;
-  --status-pending-text: #495057;
-  --status-inprogress: #fff3cd;
-  --status-inprogress-text: #856404;
-  --status-read: #d4edda;
-  --status-read-text: #155724;
-  --status-archived: #f8d7da;
-  --status-archived-text: #721c24;
+  --status-pending: #f2f1ec;
+  --status-pending-text: #6b6961;
+  --status-inprogress: #fbece7;
+  --status-inprogress-text: #c46445;
+  --status-read: #eaf0e2;
+  --status-read-text: #5e7345;
+  --status-archived: #e9f1f8;
+  --status-archived-text: #5080b0;
 
-  --priority-low: #7d8c7c;
-  --priority-medium: #d4a373;
-  --priority-high: #bc4749;
+  --priority-low: #5e7345;
+  --priority-medium: #c46445;
+  --priority-high: #b8432d;
 }
 
 * {
@@ -76,8 +76,8 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   background-image:
-    radial-gradient(circle at top left, rgba(154, 173, 153, 0.09), transparent 34%),
-    radial-gradient(circle at bottom right, rgba(212, 163, 115, 0.08), transparent 28%);
+    radial-gradient(circle at top left, rgba(106, 155, 204, 0.09), transparent 34%),
+    radial-gradient(circle at bottom right, rgba(217, 119, 87, 0.08), transparent 28%);
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
