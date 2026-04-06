@@ -52,6 +52,12 @@ function App() {
     setTheme(prev => prev === 'light' ? 'dark' : 'light');
   };
 
+  const goHome = () => {
+    setSearchQuery('');
+    setFilterStatus('All');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const filteredEntries = useMemo(() => {
     return entries.filter(item => {
       const q = searchQuery.toLowerCase();
@@ -129,7 +135,7 @@ function App() {
       <header className="header">
         <div className="header-content">
           <div className="header-brand">
-            <div className="logo">
+            <div className="logo" onClick={goHome} title="Go home">
               <div className="logo-icon">ZS</div>
               <div className="logo-copy">
                 <h1>ZenShelf</h1>

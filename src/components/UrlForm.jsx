@@ -170,7 +170,7 @@ export function UrlForm({ onSubmit, onClose, editingEntry }) {
             </div>
           </div>
 
-          <button type="submit" className="btn-submit">
+          <button type="submit" className="btn-submit" style={{ background: 'var(--primary-color)' }}>
             {editingEntry ? 'Save Changes' : 'Add to Shelf'}
           </button>
         </form>

@@ -10,10 +10,17 @@ export function UrlCard({ item, viewMode = 'card', onEdit, onDelete, onStatusUpd
     layoutId: `entry-${item.id}`,
     transition: {
       layout: {
-        duration: 0.34,
-        ease: [0.22, 1, 0.36, 1]
+        type: "spring",
+        stiffness: 300,
+        damping: 30
       }
     }
+  };
+
+  const hoverTransition = {
+    type: "spring",
+    stiffness: 400,
+    damping: 25
   };
 
   const getPriorityMeta = (priority) => {
@@ -73,9 +80,9 @@ export function UrlCard({ item, viewMode = 'card', onEdit, onDelete, onStatusUpd
   const accentColor = item.color && item.color !== 'none' ? COLOR_HEX[item.color] : null;
   const accentStyle = accentColor
     ? {
-        background: `linear-gradient(135deg, ${accentColor}33 0%, ${accentColor}22 50%, ${accentColor}14 100%)`,
-        borderColor: `${accentColor}88`,
-        boxShadow: `0 0 0 1px ${accentColor}44, 0 8px 32px ${accentColor}28`,
+        background: `linear-gradient(135deg, ${accentColor}0a 0%, ${accentColor}05 100%)`,
+        borderColor: `${accentColor}22`,
+        boxShadow: `0 4px 15px ${accentColor}08`,
       }
     : {};
 
@@ -86,7 +93,12 @@ export function UrlCard({ item, viewMode = 'card', onEdit, onDelete, onStatusUpd
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.98 }}
-        whileHover={{ y: -3, scale: 1.003 }}
+        whileHover={{ 
+          x: 4, 
+          backgroundColor: 'var(--surface-muted)',
+          boxShadow: 'var(--shadow-sm)'
+        }}
+        transition={hoverTransition}
         className="url-card list-view-card"
         style={accentStyle}
       >
@@ -144,7 +156,11 @@ export function UrlCard({ item, viewMode = 'card', onEdit, onDelete, onStatusUpd
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
-      whileHover={viewMode === 'card' ? { y: -8 } : undefined}
+      whileHover={{ 
+        y: -10,
+        boxShadow: 'var(--shadow-md)',
+        transition: hoverTransition
+      }}
       className={`url-card ${viewMode === 'list' ? 'list-view-card' : ''}`}
       style={accentStyle}
     >
