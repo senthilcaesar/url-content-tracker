@@ -20,7 +20,8 @@ export function UrlCard({ item, viewMode = 'card', onEdit, onDelete, onStatusUpd
   const hoverTransition = {
     type: "spring",
     stiffness: 400,
-    damping: 25
+    damping: 30,
+    mass: 0.8
   };
 
   const getPriorityMeta = (priority) => {
@@ -80,9 +81,9 @@ export function UrlCard({ item, viewMode = 'card', onEdit, onDelete, onStatusUpd
   const accentColor = item.color && item.color !== 'none' ? COLOR_HEX[item.color] : null;
   const accentStyle = accentColor
     ? {
-        background: `linear-gradient(135deg, ${accentColor}0a 0%, ${accentColor}05 100%)`,
-        borderColor: `${accentColor}22`,
-        boxShadow: `0 4px 15px ${accentColor}08`,
+        backgroundColor: `${accentColor}15`,
+        borderColor: `${accentColor}40`,
+        boxShadow: `0 12px 40px ${accentColor}15`,
       }
     : {};
 
@@ -157,7 +158,7 @@ export function UrlCard({ item, viewMode = 'card', onEdit, onDelete, onStatusUpd
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
       whileHover={{ 
-        y: -10,
+        y: -5,
         boxShadow: 'var(--shadow-md)',
         transition: hoverTransition
       }}

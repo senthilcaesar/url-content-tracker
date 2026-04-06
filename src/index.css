@@ -28,8 +28,11 @@
   --status-archived-text: #6a9bcc;
 
   --priority-low: #788c5d;
-  --priority-medium: #d97757;
+  --priority-low-bg: rgba(120, 140, 93, 0.15);
+  --priority-medium: #d9a506;
+  --priority-medium-bg: rgba(217, 165, 6, 0.15);
   --priority-high: #cc4f38;
+  --priority-high-bg: rgba(204, 79, 56, 0.15);
 }
 
 :root {
@@ -64,8 +67,11 @@
   --status-archived-text: #5f6368;
 
   --priority-low: #34a853;
-  --priority-medium: #fbbc05;
+  --priority-low-bg: #e6f4ea;
+  --priority-medium: #d97706;
+  --priority-medium-bg: #fff4e5;
   --priority-high: #ea4335;
+  --priority-high-bg: #fce8e6;
 
   --tag-bg: #f1f3f4;
   --tag-border: #dadce0;
