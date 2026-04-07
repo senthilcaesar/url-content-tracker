@@ -177,14 +177,24 @@ function App() {
                 <span>Add Link</span>
               </button>
 
-              <button
-                onClick={() => setViewMode(prev => prev === 'card' ? 'list' : 'card')}
-                className="header-icon-btn"
-                title={`Switch to ${viewMode === 'card' ? 'list' : 'card'} view`}
-                aria-label={`Switch to ${viewMode === 'card' ? 'list' : 'card'} view`}
-              >
-                {viewMode === 'card' ? <List size={18} /> : <LayoutGrid size={18} />}
-              </button>
+              <div className="view-toggle-group">
+                <button
+                  onClick={() => setViewMode('card')}
+                  className={`header-icon-btn ${viewMode === 'card' ? 'active' : ''}`}
+                  title="Grid view"
+                  aria-label="Switch to grid view"
+                >
+                  <LayoutGrid size={18} />
+                </button>
+                <button
+                  onClick={() => setViewMode('list')}
+                  className={`header-icon-btn ${viewMode === 'list' ? 'active' : ''}`}
+                  title="List view"
+                  aria-label="Switch to list view"
+                >
+                  <List size={18} />
+                </button>
+              </div>
 
               <button 
                 onClick={() => setIsTechStackOpen(true)}
