@@ -1,38 +1,51 @@
 /* Removed obsolete font import as fonts are now loaded in index.html */
 
+/* Catppuccin Frappé — Official palette: https://github.com/catppuccin/palette */
 :root {
-  --bg-color: #141413;
-  --surface-color: rgba(30, 30, 28, 0.88);
-  --surface-strong: #1e1e1c;
-  --surface-muted: #1a1a18;
-  --primary-color: #d97757;
-  --primary-hover: #c46445;
-  --secondary-color: #faf9f5;
-  --accent-color: #6a9bcc;
-  --text-main: #faf9f5;
-  --text-muted: #b0aea5;
-  --border-color: rgba(176, 174, 165, 0.18);
-  --shadow-sm: 0 8px 20px rgba(0, 0, 0, 0.22);
-  --shadow-md: 0 18px 40px rgba(0, 0, 0, 0.28);
+  /* Base surfaces (Frappé) */
+  --bg-color: #303446;          /* base */
+  --surface-color: rgba(81, 87, 109, 0.88); /* surface1 */
+  --surface-strong: #414559;    /* surface0 */
+  --surface-muted: #292c3c;     /* mantle */
+  --crust: #232634;
+
+  /* Brand / interactive */
+  --primary-color: #ef9f76;     /* peach */
+  --primary-hover: #e5a085;     /* peach lightened */
+  --secondary-color: #c6d0f5;   /* text */
+  --accent-color: #8caaee;      /* blue */
+
+  /* Typography */
+  --text-main: #c6d0f5;         /* text */
+  --text-muted: #a5adce;        /* subtext0 */
+
+  /* Borders & shadows */
+  --border-color: rgba(115, 121, 148, 0.35); /* overlay0 */
+  --shadow-sm: 0 8px 20px rgba(35, 38, 52, 0.5);   /* crust-toned */
+  --shadow-md: 0 18px 40px rgba(35, 38, 52, 0.65);
+
+  /* Radii */
   --radius-sm: 8px;
   --radius-md: 14px;
   --radius-lg: 32px;
-  
-  --status-pending: rgba(176, 174, 165, 0.18);
-  --status-pending-text: #b0aea5;
-  --status-inprogress: rgba(217, 119, 87, 0.18);
-  --status-inprogress-text: #d97757;
-  --status-read: rgba(120, 140, 93, 0.18);
-  --status-read-text: #788c5d;
-  --status-archived: rgba(106, 155, 204, 0.16);
-  --status-archived-text: #6a9bcc;
 
-  --priority-low: #788c5d;
-  --priority-low-bg: rgba(120, 140, 93, 0.15);
-  --priority-medium: #d9a506;
-  --priority-medium-bg: rgba(217, 165, 6, 0.15);
-  --priority-high: #cc4f38;
-  --priority-high-bg: rgba(204, 79, 56, 0.15);
+  /* Status badges */
+  --status-pending: rgba(165, 173, 206, 0.18);  /* subtext0 tint */
+  --status-pending-text: #a5adce;               /* subtext0 */
+  --status-inprogress: rgba(239, 159, 118, 0.18); /* peach tint */
+  --status-inprogress-text: #ef9f76;            /* peach */
+  --status-read: rgba(166, 209, 137, 0.18);     /* green tint */
+  --status-read-text: #a6d189;                  /* green */
+  --status-archived: rgba(129, 200, 190, 0.16); /* teal tint */
+  --status-archived-text: #81c8be;              /* teal */
+
+  /* Priority indicators */
+  --priority-low: #a6d189;                      /* green */
+  --priority-low-bg: rgba(166, 209, 137, 0.15);
+  --priority-medium: #e5c890;                   /* yellow */
+  --priority-medium-bg: rgba(229, 200, 144, 0.15);
+  --priority-high: #e78284;                     /* red */
+  --priority-high-bg: rgba(231, 130, 132, 0.15);
 }
 
 :root {
@@ -79,25 +92,26 @@
 }
 
 [data-theme='dark'] {
-  --bg-color: #141413;
-  --surface-color: rgba(30, 30, 29, 0.9);
-  --surface-strong: #1a1a19;
-  --surface-muted: #232322;
-  --primary-color: #d97757;
-  --primary-hover: #e08b6e;
-  --secondary-color: #f6e9de;
-  --accent-color: #6a9bcc;
-  --text-main: #faf9f5;
-  --text-muted: #b0aea5;
-  --border-color: rgba(250, 249, 245, 0.1);
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
-  --tag-bg: rgba(255, 255, 255, 0.045);
-  --tag-border: rgba(255, 255, 255, 0.08);
+  /* Catppuccin Frappé dark overrides */
+  --bg-color: #303446;          /* base */
+  --surface-color: rgba(81, 87, 109, 0.9); /* surface1 */
+  --surface-strong: #414559;    /* surface0 */
+  --surface-muted: #292c3c;     /* mantle */
+  --primary-color: #ef9f76;     /* peach */
+  --primary-hover: #e5a085;
+  --secondary-color: #c6d0f5;   /* text */
+  --accent-color: #8caaee;      /* blue */
+  --text-main: #c6d0f5;         /* text */
+  --text-muted: #a5adce;        /* subtext0 */
+  --border-color: rgba(115, 121, 148, 0.3); /* overlay0 */
+  --shadow-sm: 0 2px 8px rgba(35, 38, 52, 0.5);
+  --shadow-md: 0 8px 24px rgba(35, 38, 52, 0.65);
+  --tag-bg: rgba(98, 104, 128, 0.25);  /* surface2 tint */
+  --tag-border: rgba(115, 121, 148, 0.3); /* overlay0 */
 
-  --bg-gradient: 
-    radial-gradient(circle at 0% 0%, rgba(217, 119, 87, 0.08), transparent 45%),
-    radial-gradient(circle at 100% 100%, rgba(106, 155, 204, 0.06), transparent 45%);
+  --bg-gradient:
+    radial-gradient(circle at 0% 0%, rgba(239, 159, 118, 0.07), transparent 45%),
+    radial-gradient(circle at 100% 100%, rgba(140, 170, 238, 0.06), transparent 45%);
 }
 
 * {
