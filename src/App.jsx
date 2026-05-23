@@ -1,15 +1,16 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
-import { 
-  Plus, 
-  Search, 
-  Clock, 
-  Code, 
-  LogOut, 
+import {
+  Plus,
+  Search,
+  Clock,
+  Code,
+  LogOut,
   User,
   X,
   LayoutGrid,
-  List
+  List,
+  Archive
 } from 'lucide-react';
 
 import { UrlForm } from './components/UrlForm';
@@ -23,7 +24,7 @@ import { useFirestore } from './hooks/useFirestore';
 
 import './App.css';
 
-const STATUSES = ['Pending', 'In Progress', 'Read', 'Archived'];
+const STATUSES = ['Pending', 'In Progress', 'Read'];
 
 function App() {
   const { user, loading: authLoading, loginWithGoogle, logout } = useAuth();
@@ -36,6 +37,8 @@ function App() {
   
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState('All');
+  const [filterTag, setFilterTag] = useState(null);
+  const [showArchived, setShowArchived] = useState(false);
   const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark');
   const [viewMode, setViewMode] = useState(() => localStorage.getItem('viewMode') || 'card');
 
@@ -55,19 +58,29 @@ function App() {
   const goHome = () => {
     setSearchQuery('');
     setFilterStatus('All');
+    setFilterTag(null);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const allTags = useMemo(() => {
+    const tagSet = new Set();
+    entries.forEach(item => (item.tags || []).forEach(t => tagSet.add(t)));
+    return [...tagSet].sort();
+  }, [entries]);
+
   const filteredEntries = useMemo(() => {
     return entries.filter(item => {
+      if (!showArchived && item.archived === true) return false;
+      if (showArchived && item.archived !== true) return false;
       const q = searchQuery.toLowerCase();
-      const matchesSearch = (item.title || '').toLowerCase().includes(q) || 
+      const matchesSearch = (item.title || '').toLowerCase().includes(q) ||
                           (item.url || '').toLowerCase().includes(q) ||
                           (item.description || '').toLowerCase().includes(q);
       const matchesStatus = filterStatus === 'All' || item.status === filterStatus;
-      return matchesSearch && matchesStatus;
+      const matchesTag = !filterTag || (item.tags || []).includes(filterTag);
+      return matchesSearch && matchesStatus && matchesTag;
     });
-  }, [entries, searchQuery, filterStatus]);
+  }, [entries, searchQuery, filterStatus, filterTag, showArchived]);
 
   const handleAddOrUpdate = async (formData) => {
     setIsFormOpen(false);
@@ -115,6 +128,14 @@ function App() {
       await updateEntry(id, { status: newStatus });
     } catch (error) {
       console.error("Status update failed:", error);
+    }
+  };
+
+  const updateItemArchived = async (id, archived) => {
+    try {
+      await updateEntry(id, { archived });
+    } catch (error) {
+      console.error("Archive update failed:", error);
     }
   };
 
@@ -196,7 +217,21 @@ function App() {
                 </button>
               </div>
 
-              <button 
+              <button
+                onClick={() => setShowArchived(prev => !prev)}
+                className={`header-icon-btn archive-toggle-btn ${showArchived ? 'active' : ''}`}
+                title={showArchived ? 'Hide archived' : 'Show archived'}
+                aria-label={showArchived ? 'Hide archived' : 'Show archived'}
+              >
+                <Archive size={18} />
+                {!showArchived && entries.filter(i => i.archived === true).length > 0 && (
+                  <span className="archive-count-badge">
+                    {entries.filter(i => i.archived === true).length}
+                  </span>
+                )}
+              </button>
+
+              <button
                 onClick={() => setIsTechStackOpen(true)}
                 className="header-icon-btn"
                 title="View Tech Stack"
@@ -243,7 +278,7 @@ function App() {
               All Links
             </button>
             {STATUSES.map(status => (
-              <button 
+              <button
                 key={status}
                 className={`filter-btn ${filterStatus === status ? 'active' : ''}`}
                 onClick={() => setFilterStatus(status)}
@@ -252,7 +287,22 @@ function App() {
               </button>
             ))}
           </nav>
-          
+
+          {allTags.length > 0 && (
+            <nav className="filter-nav">
+              <h3>Tags</h3>
+              {allTags.map(tag => (
+                <button
+                  key={tag}
+                  className={`filter-btn filter-btn-tag ${filterTag === tag ? 'active' : ''}`}
+                  onClick={() => setFilterTag(prev => prev === tag ? null : tag)}
+                >
+                  {tag}
+                </button>
+              ))}
+            </nav>
+          )}
+
           <div className="stats-card">
             <h4>Shelf Stats</h4>
             <div className="stat-item">
@@ -265,7 +315,7 @@ function App() {
             </div>
             <div className="stat-item">
               <span className="stat-label">Archived</span>
-              <span className="stat-value">{entries.filter(i => i.status === 'Archived').length}</span>
+              <span className="stat-value">{entries.filter(i => i.archived === true).length}</span>
             </div>
             <div className="stat-item">
               <span className="stat-label">Read</span>
@@ -303,13 +353,14 @@ function App() {
               </motion.div>
             ) : (
               filteredEntries.map((item) => (
-                <UrlCard 
+                <UrlCard
                   key={item.id}
                   item={item}
                   viewMode={viewMode}
                   onEdit={startEditing}
                   onDelete={handleDeleteClick}
                   onStatusUpdate={updateItemStatus}
+                  onArchiveToggle={updateItemArchived}
                 />
               ))
             )}

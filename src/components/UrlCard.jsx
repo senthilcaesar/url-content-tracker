@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, Trash2, Edit3, Tag, ChevronDown, CalendarDays } from 'lucide-react';
+import { ExternalLink, Trash2, Edit3, Tag, ChevronDown, CalendarDays, Archive, ArchiveRestore, Copy, Check } from 'lucide-react';
 
-const STATUSES = ['Pending', 'In Progress', 'Read', 'Archived'];
+const STATUSES = ['Pending', 'In Progress', 'Read'];
 
-export function UrlCard({ item, viewMode = 'card', onEdit, onDelete, onStatusUpdate }) {
+export function UrlCard({ item, viewMode = 'card', onEdit, onDelete, onStatusUpdate, onArchiveToggle }) {
   const motionProps = {
     layout: true,
     layoutId: `entry-${item.id}`,
@@ -63,6 +63,16 @@ export function UrlCard({ item, viewMode = 'card', onEdit, onDelete, onStatusUpd
       day: 'numeric',
       year: 'numeric'
     }).format(parsedDate);
+  };
+
+  const [copied, setCopied] = useState(false);
+
+  const copyUrl = (e) => {
+    e.preventDefault();
+    navigator.clipboard.writeText(item.url).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    });
   };
 
   const statusClass = (item.status || 'Pending').replace(/\s+/g, '').toLowerCase();
@@ -134,15 +144,28 @@ export function UrlCard({ item, viewMode = 'card', onEdit, onDelete, onStatusUpd
               <CalendarDays size={12} />
               {formattedDate}
             </span>
+            {(item.tags || []).map(tag => (
+              <span key={tag} className="tag-chip">{tag}</span>
+            ))}
             <div className="card-url">
               <ExternalLink size={14} />
               <a href={item.url} target="_blank" rel="noopener noreferrer">{item.url}</a>
+              <button className={`copy-url-btn${copied ? ' copied' : ''}`} onClick={copyUrl} title={copied ? 'Copied!' : 'Copy URL'}>
+                {copied ? <Check size={13} /> : <Copy size={13} />}
+              </button>
             </div>
           </div>
         </div>
 
         <div className="list-utility">
           <div className="card-actions">
+            <button
+              onClick={() => onArchiveToggle(item.id, !item.archived)}
+              title={item.archived ? 'Unarchive' : 'Archive'}
+              className={item.archived ? 'archive-active' : ''}
+            >
+              {item.archived ? <ArchiveRestore size={16} /> : <Archive size={16} />}
+            </button>
             <button onClick={() => onEdit(item)} title="Edit"><Edit3 size={16} /></button>
             <button onClick={() => onDelete(item.id)} title="Delete"><Trash2 size={16} /></button>
           </div>
@@ -170,6 +193,13 @@ export function UrlCard({ item, viewMode = 'card', onEdit, onDelete, onStatusUpd
           {priorityMeta.label}
         </span>
         <div className="card-actions">
+          <button
+            onClick={() => onArchiveToggle(item.id, !item.archived)}
+            title={item.archived ? 'Unarchive' : 'Archive'}
+            className={item.archived ? 'archive-active' : ''}
+          >
+            {item.archived ? <ArchiveRestore size={16} /> : <Archive size={16} />}
+          </button>
           <button onClick={() => onEdit(item)} title="Edit"><Edit3 size={16} /></button>
           <button onClick={() => onDelete(item.id)} title="Delete"><Trash2 size={16} /></button>
         </div>
@@ -181,6 +211,9 @@ export function UrlCard({ item, viewMode = 'card', onEdit, onDelete, onStatusUpd
         <div className="card-url">
           <ExternalLink size={14} />
           <a href={item.url} target="_blank" rel="noopener noreferrer">{item.url}</a>
+          <button className="copy-url-btn" onClick={copyUrl} title="Copy URL">
+            {copied ? <Check size={13} /> : <Copy size={13} />}
+          </button>
         </div>
       </div>
 
@@ -194,6 +227,9 @@ export function UrlCard({ item, viewMode = 'card', onEdit, onDelete, onStatusUpd
             <CalendarDays size={12} />
             {formattedDate}
           </span>
+          {(item.tags || []).map(tag => (
+            <span key={tag} className="tag-chip">{tag}</span>
+          ))}
         </div>
         <div className="status-dropdown">
           <select 

@@ -1,28 +1,28 @@
 /* Removed obsolete font import as fonts are now loaded in index.html */
 
-/* Catppuccin Frappé — Official palette: https://github.com/catppuccin/palette */
+/* Cosmos — the night sky as a personal universe of knowledge */
 :root {
-  /* Base surfaces (Frappé) */
-  --bg-color: #303446;          /* base */
-  --surface-color: rgba(81, 87, 109, 0.88); /* surface1 */
-  --surface-strong: #414559;    /* surface0 */
-  --surface-muted: #292c3c;     /* mantle */
-  --crust: #232634;
+  /* Base surfaces */
+  --bg-color: #08090e;
+  --surface-color: rgba(13, 15, 25, 0.94);
+  --surface-strong: #131524;
+  --surface-muted: #060710;
+  --crust: #040508;
 
   /* Brand / interactive */
-  --primary-color: #ef9f76;     /* peach */
-  --primary-hover: #e5a085;     /* peach lightened */
-  --secondary-color: #c6d0f5;   /* text */
-  --accent-color: #8caaee;      /* blue */
+  --primary-color: #f2c14e;     /* starlight gold */
+  --primary-hover: #e0b040;
+  --secondary-color: #e4e8f8;   /* cool starlight white */
+  --accent-color: #8080f0;      /* nebula indigo */
 
   /* Typography */
-  --text-main: #c6d0f5;         /* text */
-  --text-muted: #a5adce;        /* subtext0 */
+  --text-main: #dde2f4;
+  --text-muted: #585e7a;
 
   /* Borders & shadows */
-  --border-color: rgba(115, 121, 148, 0.35); /* overlay0 */
-  --shadow-sm: 0 8px 20px rgba(35, 38, 52, 0.5);   /* crust-toned */
-  --shadow-md: 0 18px 40px rgba(35, 38, 52, 0.65);
+  --border-color: rgba(255, 252, 240, 0.07);
+  --shadow-sm: 0 4px 24px rgba(2, 3, 8, 0.8);
+  --shadow-md: 0 16px 48px rgba(2, 3, 8, 0.88);
 
   /* Radii */
   --radius-sm: 8px;
@@ -30,22 +30,26 @@
   --radius-lg: 32px;
 
   /* Status badges */
-  --status-pending: rgba(165, 173, 206, 0.18);  /* subtext0 tint */
-  --status-pending-text: #a5adce;               /* subtext0 */
-  --status-inprogress: rgba(239, 159, 118, 0.18); /* peach tint */
-  --status-inprogress-text: #ef9f76;            /* peach */
-  --status-read: rgba(166, 209, 137, 0.18);     /* green tint */
-  --status-read-text: #a6d189;                  /* green */
-  --status-archived: rgba(129, 200, 190, 0.16); /* teal tint */
-  --status-archived-text: #81c8be;              /* teal */
+  --status-pending: rgba(88, 94, 122, 0.18);
+  --status-pending-text: #7c84a8;
+  --status-inprogress: rgba(242, 193, 78, 0.14);
+  --status-inprogress-text: #f2c14e;
+  --status-read: rgba(114, 204, 140, 0.14);
+  --status-read-text: #72cc8c;
+  --status-archived: rgba(128, 128, 240, 0.14);
+  --status-archived-text: #9898f0;
 
   /* Priority indicators */
-  --priority-low: #a6d189;                      /* green */
-  --priority-low-bg: rgba(166, 209, 137, 0.15);
-  --priority-medium: #e5c890;                   /* yellow */
-  --priority-medium-bg: rgba(229, 200, 144, 0.15);
-  --priority-high: #e78284;                     /* red */
-  --priority-high-bg: rgba(231, 130, 132, 0.15);
+  --priority-low: #72cc8c;
+  --priority-low-bg: rgba(114, 204, 140, 0.12);
+  --priority-medium: #f2c14e;
+  --priority-medium-bg: rgba(242, 193, 78, 0.12);
+  --priority-high: #f07878;
+  --priority-high-bg: rgba(240, 120, 120, 0.12);
+
+  /* Tag defaults */
+  --tag-bg: rgba(242, 193, 78, 0.09);
+  --tag-border: rgba(242, 193, 78, 0.2);
 }
 
 :root {
@@ -92,26 +96,26 @@
 }
 
 [data-theme='dark'] {
-  /* Catppuccin Frappé dark overrides */
-  --bg-color: #303446;          /* base */
-  --surface-color: rgba(81, 87, 109, 0.9); /* surface1 */
-  --surface-strong: #414559;    /* surface0 */
-  --surface-muted: #292c3c;     /* mantle */
-  --primary-color: #ef9f76;     /* peach */
-  --primary-hover: #e5a085;
-  --secondary-color: #c6d0f5;   /* text */
-  --accent-color: #8caaee;      /* blue */
-  --text-main: #c6d0f5;         /* text */
-  --text-muted: #a5adce;        /* subtext0 */
-  --border-color: rgba(115, 121, 148, 0.3); /* overlay0 */
-  --shadow-sm: 0 2px 8px rgba(35, 38, 52, 0.5);
-  --shadow-md: 0 8px 24px rgba(35, 38, 52, 0.65);
-  --tag-bg: rgba(98, 104, 128, 0.25);  /* surface2 tint */
-  --tag-border: rgba(115, 121, 148, 0.3); /* overlay0 */
+  /* Cosmos dark overrides */
+  --bg-color: #08090e;
+  --surface-color: rgba(13, 15, 25, 0.94);
+  --surface-strong: #131524;
+  --surface-muted: #060710;
+  --primary-color: #f2c14e;
+  --primary-hover: #e0b040;
+  --secondary-color: #e4e8f8;
+  --accent-color: #8080f0;
+  --text-main: #dde2f4;
+  --text-muted: #585e7a;
+  --border-color: rgba(255, 252, 240, 0.07);
+  --shadow-sm: 0 4px 24px rgba(2, 3, 8, 0.8);
+  --shadow-md: 0 16px 48px rgba(2, 3, 8, 0.88);
+  --tag-bg: rgba(242, 193, 78, 0.09);
+  --tag-border: rgba(242, 193, 78, 0.2);
 
   --bg-gradient:
-    radial-gradient(circle at 0% 0%, rgba(239, 159, 118, 0.07), transparent 45%),
-    radial-gradient(circle at 100% 100%, rgba(140, 170, 238, 0.06), transparent 45%);
+    radial-gradient(ellipse at 82% 8%, rgba(242, 193, 78, 0.05), transparent 46%),
+    radial-gradient(ellipse at 18% 92%, rgba(128, 128, 240, 0.05), transparent 46%);
 }
 
 * {

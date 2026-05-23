@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 
-const STATUS_OPTIONS = ['Pending', 'In Progress', 'Read', 'Archived'];
+const STATUS_OPTIONS = ['Pending', 'In Progress', 'Read'];
 const CATEGORIES = ['Read Later', 'Work', 'Personal', 'Research', 'Tech', 'Inspiration'];
 const PRIORITIES = ['Low', 'Medium', 'High'];
 
@@ -40,10 +40,13 @@ export function UrlForm({ onSubmit, onClose, editingEntry }) {
     category: 'Read Later',
     priority: 'Medium',
     color: 'none',
-    createdDate: getTodayInputValue()
+    createdDate: getTodayInputValue(),
+    tags: []
   };
 
   const [formData, setFormData] = useState(initialFormState);
+  const [tagInput, setTagInput] = useState('');
+  const tagInputRef = useRef(null);
 
   useEffect(() => {
     if (editingEntry) {
@@ -57,11 +60,33 @@ export function UrlForm({ onSubmit, onClose, editingEntry }) {
     }
   }, [editingEntry]);
 
+  const addTag = (raw) => {
+    const tag = raw.trim().toLowerCase();
+    if (!tag || (formData.tags || []).includes(tag)) return;
+    setFormData(prev => ({ ...prev, tags: [...(prev.tags || []), tag] }));
+  };
+
+  const removeTag = (tag) => {
+    setFormData(prev => ({ ...prev, tags: (prev.tags || []).filter(t => t !== tag) }));
+  };
+
+  const handleTagKeyDown = (e) => {
+    if (e.key === 'Enter' || e.key === ',') {
+      e.preventDefault();
+      addTag(tagInput);
+      setTagInput('');
+    } else if (e.key === 'Backspace' && !tagInput && formData.tags?.length) {
+      removeTag(formData.tags[formData.tags.length - 1]);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!formData.url) return;
-    onSubmit(formData);
+    if (tagInput.trim()) addTag(tagInput);
+    onSubmit({ ...formData, tags: formData.tags || [] });
     setFormData(initialFormState);
+    setTagInput('');
   };
 
   return (
@@ -167,6 +192,38 @@ export function UrlForm({ onSubmit, onClose, editingEntry }) {
                   {value === 'none' && <span className="color-swatch-none">∅</span>}
                 </button>
               ))}
+            </div>
+          </div>
+
+          <div className="form-group">
+            <label>Tags</label>
+            <div
+              className="tag-input-area"
+              onClick={() => tagInputRef.current?.focus()}
+            >
+              {(formData.tags || []).map(tag => (
+                <span key={tag} className="tag-chip tag-chip-form">
+                  {tag}
+                  <button
+                    type="button"
+                    className="tag-chip-remove"
+                    onClick={(e) => { e.stopPropagation(); removeTag(tag); }}
+                    aria-label={`Remove tag ${tag}`}
+                  >
+                    <X size={10} />
+                  </button>
+                </span>
+              ))}
+              <input
+                ref={tagInputRef}
+                type="text"
+                className="tag-text-input"
+                placeholder={(formData.tags || []).length === 0 ? 'Add tags… press Enter or comma' : ''}
+                value={tagInput}
+                onChange={e => setTagInput(e.target.value)}
+                onKeyDown={handleTagKeyDown}
+                onBlur={() => { if (tagInput.trim()) { addTag(tagInput); setTagInput(''); } }}
+              />
             </div>
           </div>
 
