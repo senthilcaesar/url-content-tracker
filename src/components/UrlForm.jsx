@@ -175,26 +175,33 @@ export function UrlForm({ onSubmit, onClose, editingEntry }) {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <motion.div 
+      <motion.div
         initial={{ scale: 0.96, opacity: 0, y: 12 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.96, opacity: 0, y: 12 }}
         transition={{ duration: 0.22, ease: 'easeInOut' }}
-        className="hud-modal" 
+        className="hud-modal"
         onClick={(e) => e.stopPropagation()}
       >
+        {/* Decorative doodles */}
+        <span className="hud-deco hud-deco-1">★</span>
+        <span className="hud-deco hud-deco-2">✦</span>
+        <span className="hud-deco hud-deco-3">◆</span>
+
         {/* Top Control Bar */}
         <div className="hud-header">
           <div className="hud-title-area">
-            <Terminal size={16} className="hud-title-icon" />
-            <h2>{editingEntry ? 'EDIT LINK DECK' : 'INGEST NEW LINK'}</h2>
+            <div className="hud-title-icon">
+              <Terminal size={18} strokeWidth={2.5} />
+            </div>
+            <h2>{editingEntry ? 'Edit Link!' : 'Add Link!'}</h2>
             <div className="hud-status-indicator">
               <span className="status-dot green"></span>
-              <span className="status-text">DECK ACTIVE</span>
+              <span className="status-text">ready</span>
             </div>
           </div>
-          <button className="hud-close-btn" onClick={onClose} aria-label="Close Control Deck">
-            <X size={16} />
+          <button className="hud-close-btn" onClick={onClose} aria-label="Close">
+            <X size={16} strokeWidth={3} />
           </button>
         </div>
 
@@ -203,7 +210,7 @@ export function UrlForm({ onSubmit, onClose, editingEntry }) {
           <div className="hud-port-panel">
             <div className="hud-section-header">
               <Activity size={12} />
-              <span>VISUAL PORT CARD PREVIEW</span>
+              <span>live preview</span>
             </div>
 
             <div 
@@ -478,10 +485,10 @@ export function UrlForm({ onSubmit, onClose, editingEntry }) {
               {/* Action Buttons */}
               <div className="hud-footer">
                 <button type="button" className="hud-btn hud-btn-abort" onClick={onClose}>
-                  ABORT
+                  Cancel
                 </button>
                 <button type="submit" className="hud-btn hud-btn-commit">
-                  {editingEntry ? 'SAVE CONFIG' : 'COMMIT SHELF'}
+                  {editingEntry ? 'Save Changes' : 'Add to Shelf'}
                 </button>
               </div>
 
