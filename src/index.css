@@ -3,119 +3,181 @@
 /* Cosmos — the night sky as a personal universe of knowledge */
 :root {
   /* Base surfaces */
-  --bg-color: #08090e;
-  --surface-color: rgba(13, 15, 25, 0.94);
-  --surface-strong: #131524;
-  --surface-muted: #060710;
-  --crust: #040508;
+  --bg-color: #121214;          /* Deep Charcoal Jet Black */
+  --surface-color: #1a1a1e;     /* Matte Black console faceplate cards */
+  --surface-strong: #2d2d34;    /* Brushed Gunmetal accent panels */
+  --surface-muted: #0d0d0f;     /* Recessed console well */
+  --crust: #080809;
 
   /* Brand / interactive */
-  --primary-color: #f2c14e;     /* starlight gold */
-  --primary-hover: #e0b040;
-  --secondary-color: #e4e8f8;   /* cool starlight white */
-  --accent-color: #8080f0;      /* nebula indigo */
+  --primary-color: #e60012;     /* Nintendo Red */
+  --primary-hover: #ff3b30;
+  --secondary-color: #d8dee9;   /* snowy white */
+  --accent-color: #f68d1f;      /* Signal Orange submit / links */
+  --btn-primary-text: #ffffff;
+  --title-color: #dedede;       /* Platinum Gray console grey */
+  --title-glow: none;
+  --title-glow-hover: 0 0 8px rgba(222, 222, 222, 0.2);
+  --link-color: #3b82f6;        /* Bright Azure Blue, high contrast */
+  --link-hover: #60a5fa;
+  --hover-bg: rgba(255, 255, 255, 0.08); /* light hover overlay */
+  --scrollbar-thumb: rgba(255, 255, 255, 0.2);
+  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.4);
+
+
 
   /* Typography */
-  --text-main: #dde2f4;
-  --text-muted: #585e7a;
+  --text-main: #f0f0f3;         /* Platinum/Silver White text */
+  --text-muted: #8e8e9b;        /* Slate Silver label text */
 
   /* Borders & shadows */
-  --border-color: rgba(255, 252, 240, 0.07);
-  --shadow-sm: 0 4px 24px rgba(2, 3, 8, 0.8);
-  --shadow-md: 0 16px 48px rgba(2, 3, 8, 0.88);
+  --border-color: #2a2a2f;      /* Brushed Gunmetal bevel borders */
+  --shadow-sm: 0 2px 0 #2a2a2f;
+  --shadow-md: 0 4px 0 #2a2a2f;
+  --active-shadow: 0 0 12px rgba(246, 141, 31, 0.4);
+  --hover-accent-shadow: 0 0 0 1px rgba(143, 188, 187, 0.22), 0 0 18px rgba(143, 188, 187, 0.24);
+  --hover-danger-shadow: 0 0 0 1px rgba(230, 0, 18, 0.22), 0 0 18px rgba(230, 0, 18, 0.24);
 
-  /* Radii */
-  --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-lg: 32px;
+
+  /* Radii - console buttons are sharp, controls round */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
 
   /* Status badges */
-  --status-pending: rgba(88, 94, 122, 0.18);
-  --status-pending-text: #7c84a8;
-  --status-inprogress: rgba(242, 193, 78, 0.14);
-  --status-inprogress-text: #f2c14e;
-  --status-read: rgba(114, 204, 140, 0.14);
-  --status-read-text: #72cc8c;
-  --status-archived: rgba(128, 128, 240, 0.14);
-  --status-archived-text: #9898f0;
+  --status-pending: rgba(172, 172, 231, 0.16);
+  --status-pending-text: #acace7;
+  --status-inprogress: rgba(246, 141, 31, 0.16);
+  --status-inprogress-text: #f68d1f;
+  --status-read: rgba(163, 190, 140, 0.16);
+  --status-read-text: #a3be8c;
+  --status-archived: rgba(139, 161, 212, 0.16);
+  --status-archived-text: #8ba1d4;
 
   /* Priority indicators */
-  --priority-low: #72cc8c;
-  --priority-low-bg: rgba(114, 204, 140, 0.12);
-  --priority-medium: #f2c14e;
-  --priority-medium-bg: rgba(242, 193, 78, 0.12);
-  --priority-high: #f07878;
-  --priority-high-bg: rgba(240, 120, 120, 0.12);
+  --priority-low: #8ba1d4;
+  --priority-low-bg: rgba(139, 161, 212, 0.12);
+  --priority-medium: #ecab37;
+  --priority-medium-bg: rgba(236, 171, 55, 0.12);
+  --priority-high: #e60012;
+  --priority-high-bg: rgba(230, 0, 18, 0.12);
 
   /* Tag defaults */
-  --tag-bg: rgba(242, 193, 78, 0.09);
-  --tag-border: rgba(242, 193, 78, 0.2);
+  --tag-bg: rgba(139, 161, 212, 0.08);
+  --tag-border: rgba(139, 161, 212, 0.2);
+  --tag-text: #8ba1d4;          /* light periwinkle/slate blue */
 }
 
 :root {
-  --font-heading: 'Roboto', system-ui, -apple-system, sans-serif;
-  --font-body: 'Roboto', system-ui, -apple-system, sans-serif;
-  --font-google: 'Roboto', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Poppins', 'Arial Black', system-ui, -apple-system, sans-serif;
+  --font-body: 'Roboto', 'Arial', system-ui, -apple-system, sans-serif;
+  --font-google: 'Poppins', system-ui, -apple-system, sans-serif;
 }
 
+
 [data-theme='light'] {
-  --bg-color: #f1f3f4; /* Darkened from #f8f9fa for card contrast */
-  --surface-color: #ffffff;
-  --surface-strong: #ffffff;
-  --surface-muted: #f1f3f4;
-  --primary-color: #1a73e8;
-  --primary-hover: #174ea6;
-  --secondary-color: #5f6368;
-  --accent-color: #34a853;
-  --text-main: #202124;
-  --text-muted: #5f6368;
-  --border-color: #dadce0;
-  --shadow-sm: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --bg-color: #7a8aba;          /* Periwinkle Metallic console background */
+  --surface-color: #ffffff;     /* White faceplate cards */
+  --surface-strong: #8ba1d4;    /* Light Periwinkle raised panel */
+  --surface-muted: #dedede;     /* Platinum Gray inset list */
+  --primary-color: #e60012;     /* Nintendo Red */
+  --primary-hover: #b5000e;
+  --secondary-color: #21242e;   /* Carbon Navy ink */
+  --accent-color: #f68d1f;      /* Signal Orange submit / links */
+  --btn-primary-text: #ffffff;
+  --title-color: #21242e;       /* Carbon Navy dark grey */
+  --title-glow: none;
+  --title-glow-hover: 0 0 8px rgba(33, 36, 46, 0.15);
+  --link-color: #005fcc;
+  --link-hover: #004499;
+  --hover-bg: rgba(61, 79, 151, 0.08); /* light hover overlay */
+  --scrollbar-thumb: rgba(33, 36, 46, 0.15);
+  --scrollbar-thumb-hover: rgba(33, 36, 46, 0.3);
 
 
-  --status-pending: #f8f9fa;
-  --status-pending-text: #5f6368;
-  --status-inprogress: #e8f0fe;
-  --status-inprogress-text: #1a73e8;
-  --status-read: #e6f4ea;
+  --text-main: #21242e;         /* Carbon Navy ink */
+  --text-muted: #3d4f97;        /* Chrome Indigo */
+  --border-color: #3d4f97;      /* Chrome Indigo bevel border */
+  --shadow-sm: 0 2px 0 #3d4f97;
+  --shadow-md: 0 4px 0 #3d4f97;
+  --active-shadow: 0 4px 12px rgba(246, 141, 31, 0.3);
+  --hover-accent-shadow: 0 0 0 1px rgba(61, 79, 151, 0.18), 0 0 18px rgba(61, 79, 151, 0.2);
+  --hover-danger-shadow: 0 0 0 1px rgba(230, 0, 18, 0.18), 0 0 18px rgba(230, 0, 18, 0.2);
+
+  --status-pending: rgba(61, 79, 151, 0.08);
+  --status-pending-text: #3d4f97;
+  --status-inprogress: rgba(246, 141, 31, 0.1);
+  --status-inprogress-text: #f68d1f;
+  --status-read: rgba(34, 197, 94, 0.1);
   --status-read-text: #1e8e3e;
-  --status-archived: #f1f3f4;
-  --status-archived-text: #5f6368;
+  --status-archived: rgba(61, 79, 151, 0.08);
+  --status-archived-text: #3d4f97;
 
-  --priority-low: #34a853;
-  --priority-low-bg: #e6f4ea;
-  --priority-medium: #d97706;
-  --priority-medium-bg: #fff4e5;
-  --priority-high: #ea4335;
-  --priority-high-bg: #fce8e6;
+  --priority-low: #3d4f97;
+  --priority-low-bg: rgba(61, 79, 151, 0.08);
+  --priority-medium: #e48600;   /* Nav Gold */
+  --priority-medium-bg: rgba(228, 134, 0, 0.08);
+  --priority-high: #e60012;     /* Nintendo Red */
+  --priority-high-bg: rgba(230, 0, 18, 0.08);
 
-  --tag-bg: #f1f3f4;
-  --tag-border: #dadce0;
+  --tag-bg: rgba(122, 138, 186, 0.12);
+  --tag-border: rgba(122, 138, 186, 0.3);
+  --tag-text: #3e4a73;          /* slate/dark periwinkle */
   --bg-gradient: none;
+
 }
 
 [data-theme='dark'] {
-  /* Cosmos dark overrides */
-  --bg-color: #08090e;
-  --surface-color: rgba(13, 15, 25, 0.94);
-  --surface-strong: #131524;
-  --surface-muted: #060710;
-  --primary-color: #f2c14e;
-  --primary-hover: #e0b040;
-  --secondary-color: #e4e8f8;
-  --accent-color: #8080f0;
-  --text-main: #dde2f4;
-  --text-muted: #585e7a;
-  --border-color: rgba(255, 252, 240, 0.07);
-  --shadow-sm: 0 4px 24px rgba(2, 3, 8, 0.8);
-  --shadow-md: 0 16px 48px rgba(2, 3, 8, 0.88);
-  --tag-bg: rgba(242, 193, 78, 0.09);
-  --tag-border: rgba(242, 193, 78, 0.2);
+  /* Standard Dark — clean, readable, no gimmicks */
+  --bg-color: #1e1e1e;
+  --surface-color: #252526;
+  --surface-strong: #2d2d2d;
+  --surface-muted: #181818;
+  --primary-color: #f44747;
+  --primary-hover: #ff6b6b;
+  --secondary-color: #d4d4d4;
+  --accent-color: #007acc;
+  --btn-primary-text: #ffffff;
+  --title-color: #ffffff;
+  --title-glow: none;
+  --title-glow-hover: none;
+  --link-color: #4ec9b0;
+  --link-hover: #6fdacb;
+  --hover-bg: rgba(255, 255, 255, 0.06);
+  --scrollbar-thumb: rgba(255, 255, 255, 0.2);
+  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.35);
 
-  --bg-gradient:
-    radial-gradient(ellipse at 82% 8%, rgba(242, 193, 78, 0.05), transparent 46%),
-    radial-gradient(ellipse at 18% 92%, rgba(128, 128, 240, 0.05), transparent 46%);
+  --text-main: #d4d4d4;
+  --text-muted: #858585;
+  --border-color: #3c3c3c;
+  --shadow-sm: 0 2px 0 #111111;
+  --shadow-md: 0 4px 0 #111111;
+
+  --tag-bg: rgba(0, 122, 204, 0.12);
+  --tag-border: rgba(0, 122, 204, 0.3);
+  --tag-text: #4ec9b0;
+
+  --active-shadow: 0 0 12px rgba(0, 122, 204, 0.4);
+  --hover-accent-shadow: 0 0 0 1px rgba(0, 122, 204, 0.3), 0 0 12px rgba(0, 122, 204, 0.2);
+  --hover-danger-shadow: 0 0 0 1px rgba(244, 71, 71, 0.3), 0 0 12px rgba(244, 71, 71, 0.2);
+
+  --status-pending: rgba(206, 145, 120, 0.14);
+  --status-pending-text: #ce9178;
+  --status-inprogress: rgba(220, 220, 170, 0.14);
+  --status-inprogress-text: #dcdcaa;
+  --status-read: rgba(78, 201, 176, 0.14);
+  --status-read-text: #4ec9b0;
+  --status-archived: rgba(133, 133, 133, 0.14);
+  --status-archived-text: #858585;
+
+  --priority-low: #4ec9b0;
+  --priority-low-bg: rgba(78, 201, 176, 0.1);
+  --priority-medium: #dcdcaa;
+  --priority-medium-bg: rgba(220, 220, 170, 0.1);
+  --priority-high: #f44747;
+  --priority-high-bg: rgba(244, 71, 71, 0.1);
+
+  --bg-gradient: none;
 }
 
 * {

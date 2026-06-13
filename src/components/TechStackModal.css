@@ -1,172 +1,276 @@
-.modal-content.tech-stack-modal {
-  width: min(1040px, 100%);
-  max-width: 1040px;
-  padding: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
+/* ── Google Font (cartoon-friendly) ─────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap');
 
-.tech-stack-modal .modal-close {
-  top: 1rem;
-  right: 1rem;
-  width: 38px;
-  height: 38px;
-  display: inline-flex;
+/* ── Overlay ─────────────────────────────────────────────── */
+.ts-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0;
-  border-radius: 999px;
-  border: 1px solid var(--border-color);
-  background: var(--surface-strong);
-  color: var(--secondary-color);
-  z-index: 5;
-  box-shadow: var(--shadow-sm);
-}
-
-.tech-stack-modal .modal-close:hover {
-  color: var(--text-main);
-  background: var(--bg-color);
-  border-color: var(--primary-color);
-}
-
-.tech-stack-container {
   padding: 1.5rem;
+}
+
+/* ── Modal Shell ─────────────────────────────────────────── */
+.ts-modal {
+  position: relative;
+  width: min(700px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #fffdf4;
+  border: 3px solid #1a1a1a;
+  border-radius: 28px;
+  box-shadow: 8px 8px 0px #1a1a1a;
+  padding: 2rem;
+  scrollbar-width: thin;
+  font-family: 'Nunito', system-ui, sans-serif;
+}
+
+[data-theme='dark'] .ts-modal {
+  background: #1e1e1e;
+  border-color: #e5e5e5;
+  box-shadow: 8px 8px 0px #e5e5e5;
+}
+
+/* ── Decorative doodle elements ──────────────────────────── */
+.ts-deco {
+  position: absolute;
+  pointer-events: none;
+  font-style: normal;
+  line-height: 1;
+  user-select: none;
+}
+
+.ts-deco-1 {
+  top: 1.1rem;
+  left: 1.4rem;
+  font-size: 1.4rem;
+  color: #f59e0b;
+  transform: rotate(-15deg);
+  opacity: 0.85;
+}
+
+.ts-deco-2 {
+  top: 3.2rem;
+  left: 2.8rem;
+  font-size: 0.8rem;
+  color: #ec4899;
+  transform: rotate(10deg);
+  opacity: 0.7;
+}
+
+.ts-deco-3 {
+  top: 1.6rem;
+  right: 3.8rem;
+  font-size: 0.75rem;
+  color: #6366f1;
+  transform: rotate(-8deg);
+  opacity: 0.6;
+}
+
+/* ── Close Button ────────────────────────────────────────── */
+.ts-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 2.5px solid #1a1a1a;
+  background: #ff5c5c;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 #1a1a1a;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.ts-close:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 #1a1a1a;
+}
+
+.ts-close:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 #1a1a1a;
+}
+
+[data-theme='dark'] .ts-close {
+  border-color: #e5e5e5;
+  box-shadow: 3px 3px 0 #e5e5e5;
+}
+
+/* ── Header ──────────────────────────────────────────────── */
+.ts-header {
+  text-align: center;
+  margin-bottom: 1.8rem;
+}
+
+.ts-title-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.ts-eyebrow {
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #7c3aed;
+  background: #ede9fe;
+  border: 2px solid #7c3aed;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  display: inline-block;
+}
+
+[data-theme='dark'] .ts-eyebrow {
+  color: #a78bfa;
+  background: rgba(124,58,237,0.15);
+  border-color: #7c3aed;
+}
+
+.ts-title {
+  font-family: 'Nunito', system-ui, sans-serif;
+  font-size: 2.4rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #1a1a1a;
+  line-height: 1.1;
+  /* hand-drawn underline */
+  text-decoration: underline;
+  text-decoration-color: #f59e0b;
+  text-decoration-thickness: 4px;
+  text-underline-offset: 5px;
+}
+
+[data-theme='dark'] .ts-title {
+  color: #f5f5f5;
+}
+
+.ts-subtitle {
+  font-size: 0.88rem;
+  color: #555;
+  margin-top: 0.5rem;
+  font-weight: 700;
+}
+
+[data-theme='dark'] .ts-subtitle {
+  color: #aaa;
+}
+
+/* ── Cards Grid ──────────────────────────────────────────── */
+.ts-grid {
   display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
 }
 
-.tech-stack-header {
-  display: grid;
-  gap: 0.45rem;
-}
-
-.tech-stack-header h2 {
-  font-size: 1.7rem;
-  color: var(--secondary-color);
-}
-
-.intro-text {
-  color: var(--text-muted);
-  font-size: 0.95rem;
-  line-height: 1.6;
-  max-width: 62ch;
-}
-
-.tech-section {
-  display: grid;
-  gap: 0.9rem;
-  padding: 1rem;
-  border: 1px solid var(--border-color);
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.03);
-}
-
-.tech-section-header {
+/* ── Individual Card ─────────────────────────────────────── */
+.ts-card {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  text-align: center;
+  gap: 0.65rem;
+  padding: 1.1rem 0.7rem 1rem;
+  background: var(--card-bg);
+  border: 2.5px solid #1a1a1a;
+  border-radius: 18px;
+  box-shadow: 4px 4px 0 #1a1a1a;
+  cursor: pointer;
+  /* slight tilt set via inline style */
 }
 
-.tech-section-label {
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-muted);
+[data-theme='dark'] .ts-card {
+  border-color: #e5e5e5;
+  box-shadow: 4px 4px 0 #e5e5e5;
 }
 
-.tech-stack-list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.9rem;
-}
-
-.tech-stack-row {
-  display: grid;
-  gap: 0.85rem;
-  padding: 1rem;
-  border: 1px solid var(--border-color);
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.035);
-}
-
-.tech-stack-term {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.8rem;
-}
-
-.tech-stack-icon {
-  width: 40px;
-  height: 40px;
+/* ── Card Icon ───────────────────────────────────────────── */
+.ts-card-icon {
+  width: 52px;
+  height: 52px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 12px;
-  background: var(--surface-muted);
-  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  border: 2.5px solid #1a1a1a;
+  background: #fff;
+  color: var(--card-color);
+  box-shadow: 3px 3px 0 #1a1a1a;
   flex-shrink: 0;
 }
 
-.tech-stack-heading {
-  display: grid;
-  gap: 0.2rem;
+[data-theme='dark'] .ts-card-icon {
+  background: #2d2d2d;
+  border-color: #e5e5e5;
+  box-shadow: 3px 3px 0 #e5e5e5;
 }
 
-.tech-stack-category {
-  color: var(--text-muted);
-  font-size: 0.72rem;
-  font-weight: 700;
+/* ── Card Text ───────────────────────────────────────────── */
+.ts-card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.ts-card-category {
+  font-size: 0.62rem;
+  font-weight: 900;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  color: var(--card-color);
 }
 
-.tech-stack-name {
-  color: var(--text-main);
-  font-size: 1rem;
+.ts-card-name {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #1a1a1a;
   line-height: 1.2;
 }
 
-.tech-stack-detail {
-  display: flex;
-  align-items: flex-start;
+[data-theme='dark'] .ts-card-name {
+  color: #f0f0f0;
 }
 
-.tech-stack-description {
-  color: var(--text-muted);
-  font-size: 0.82rem;
-  line-height: 1.55;
+/* ── Footer ──────────────────────────────────────────────── */
+.ts-footer {
+  margin-top: 1.6rem;
+  text-align: center;
 }
 
-[data-theme='light'] .tech-section,
-[data-theme='light'] .tech-stack-row {
-  background: rgba(44, 51, 51, 0.03);
+.ts-stamp {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #888;
+  border: 2px dashed #ccc;
+  padding: 0.35rem 1rem;
+  border-radius: 999px;
 }
 
-@media (max-width: 820px) {
-  .tech-stack-list {
-    grid-template-columns: 1fr;
-  }
+[data-theme='dark'] .ts-stamp {
+  border-color: #555;
+  color: #666;
 }
 
-@media (max-width: 640px) {
-  .modal-content.tech-stack-modal {
-    padding-top: 3rem;
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .ts-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  .tech-stack-modal .modal-close {
-    top: 0.75rem;
-    right: 0.75rem;
-    width: 34px;
-    height: 34px;
-    z-index: 10;
-  }
-
-  .tech-stack-container {
-    padding: 1rem;
-  }
-
-  .tech-stack-header h2 {
-    font-size: 1.45rem;
+  .ts-title {
+    font-size: 1.9rem;
   }
 }

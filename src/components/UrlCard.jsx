@@ -4,24 +4,20 @@ import { ExternalLink, Trash2, Edit3, Tag, ChevronDown, CalendarDays, Archive, A
 
 const STATUSES = ['Pending', 'In Progress', 'Read'];
 
-export function UrlCard({ item, viewMode = 'card', onEdit, onDelete, onStatusUpdate, onArchiveToggle }) {
+export function UrlCard({ item, cardIndex = 0, viewMode = 'card', onEdit, onDelete, onStatusUpdate, onArchiveToggle }) {
+  const enterDelay = Math.min(cardIndex * 0.08, 0.6);
+
   const motionProps = {
-    layout: true,
-    layoutId: `entry-${item.id}`,
-    transition: {
-      layout: {
-        type: "spring",
-        stiffness: 300,
-        damping: 30
-      }
-    }
+    initial: { opacity: 0, y: 32 },
+    animate: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1], delay: enterDelay } },
+    exit:    { opacity: 0, y: -12, transition: { duration: 0.2, ease: 'easeIn', delay: 0 } },
   };
 
   const hoverTransition = {
     type: "spring",
-    stiffness: 400,
-    damping: 30,
-    mass: 0.8
+    stiffness: 480,
+    damping: 26,
+    mass: 0.65
   };
 
   const getPriorityMeta = (priority) => {
@@ -80,20 +76,32 @@ export function UrlCard({ item, viewMode = 'card', onEdit, onDelete, onStatusUpd
   const formattedDate = getFormattedDate();
 
   const COLOR_HEX = {
-    red:    '#ef4444',
-    orange: '#f97316',
-    yellow: '#eab308',
-    green:  '#22c55e',
-    cyan:   '#06b6d4',
-    blue:   '#3b82f6',
-    purple: '#a855f7',
+    red:      '#ef4444',
+    crimson:  '#be123c',
+    rose:     '#f43f5e',
+    pink:     '#ec4899',
+    fuchsia:  '#d946ef',
+    purple:   '#a855f7',
+    violet:   '#8b5cf6',
+    indigo:   '#6366f1',
+    blue:     '#3b82f6',
+    sky:      '#0ea5e9',
+    cyan:     '#06b6d4',
+    teal:     '#14b8a6',
+    emerald:  '#10b981',
+    green:    '#22c55e',
+    lime:     '#84cc16',
+    yellow:   '#eab308',
+    amber:    '#f59e0b',
+    orange:   '#f97316',
+    brown:    '#78350f',
+    slate:    '#64748b',
+    gray:     '#9ca3af',
   };
   const accentColor = item.color && item.color !== 'none' ? COLOR_HEX[item.color] : null;
   const accentStyle = accentColor
     ? {
-        backgroundColor: `${accentColor}15`,
-        borderColor: `${accentColor}40`,
-        boxShadow: `0 12px 40px ${accentColor}15`,
+        backgroundColor: `color-mix(in srgb, ${accentColor} 12%, var(--surface-color))`,
       }
     : {};
 
@@ -101,15 +109,7 @@ export function UrlCard({ item, viewMode = 'card', onEdit, onDelete, onStatusUpd
     return (
       <motion.div
         {...motionProps}
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.98 }}
-        whileHover={{ 
-          x: 4, 
-          backgroundColor: 'var(--surface-muted)',
-          boxShadow: 'var(--shadow-sm)'
-        }}
-        transition={hoverTransition}
+        whileHover={{ x: 4, transition: { type: 'tween', duration: 0.08, ease: 'easeOut' } }}
         className="url-card list-view-card"
         style={accentStyle}
       >
@@ -177,14 +177,7 @@ export function UrlCard({ item, viewMode = 'card', onEdit, onDelete, onStatusUpd
   return (
     <motion.div 
       {...motionProps}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      whileHover={{ 
-        y: -5,
-        boxShadow: 'var(--shadow-md)',
-        transition: hoverTransition
-      }}
+      whileHover={{ y: -6, transition: { type: 'tween', duration: 0.08, ease: 'easeOut' } }}
       className={`url-card ${viewMode === 'list' ? 'list-view-card' : ''}`}
       style={accentStyle}
     >
@@ -208,6 +201,13 @@ export function UrlCard({ item, viewMode = 'card', onEdit, onDelete, onStatusUpd
       <div className="card-body">
         <h3 className="card-title">{item.title || item.url}</h3>
         <p className="card-desc">{item.description || 'No description provided.'}</p>
+        {(item.tags || []).length > 0 && (
+          <div className="card-tags" style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', margin: '6px 0' }}>
+            {(item.tags).map(tag => (
+              <span key={tag} className="tag-chip">{tag}</span>
+            ))}
+          </div>
+        )}
         <div className="card-url">
           <ExternalLink size={14} />
           <a href={item.url} target="_blank" rel="noopener noreferrer">{item.url}</a>
@@ -227,9 +227,6 @@ export function UrlCard({ item, viewMode = 'card', onEdit, onDelete, onStatusUpd
             <CalendarDays size={12} />
             {formattedDate}
           </span>
-          {(item.tags || []).map(tag => (
-            <span key={tag} className="tag-chip">{tag}</span>
-          ))}
         </div>
         <div className="status-dropdown">
           <select 

@@ -269,7 +269,7 @@ function App() {
 
       <main className="main-content">
         <aside className="sidebar">
-          <nav className="filter-nav">
+          <nav className="filter-nav status-nav">
             <h3>Status</h3>
             <button 
               className={`filter-btn ${filterStatus === 'All' ? 'active' : ''}`}
@@ -328,45 +328,60 @@ function App() {
           </div>
         </aside>
 
-        <LayoutGroup id="shelf-layout">
-        <motion.section
-          layout
-          transition={{ layout: { duration: 0.34, ease: [0.22, 1, 0.36, 1] } }}
-          className={`shelf-grid ${viewMode === 'list' ? 'list-view' : 'card-view'}`}
-        >
-          <AnimatePresence initial={false} mode="sync">
-            {dbLoading ? (
-               <div className="empty-state">
-                    <h3>Synchronizing...</h3>
-                </div>
-            ) : filteredEntries.length === 0 ? (
-              <motion.div 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="empty-state"
+        <div className="content-column">
+          <LayoutGroup id="shelf-layout">
+          {showArchived && (
+            <div className="archive-mode-banner">
+              <div className="archive-mode-banner-left">
+                <Archive size={16} />
+                <span>Viewing <strong>{entries.filter(i => i.archived === true).length}</strong> archived link{entries.filter(i => i.archived === true).length !== 1 ? 's' : ''}</span>
+              </div>
+              <button
+                className="archive-back-btn"
+                onClick={() => setShowArchived(false)}
               >
-                <div className="empty-icon">
-                  <Clock size={48} strokeWidth={1} />
-                </div>
-                <h3>Your shelf is empty</h3>
-                <p>Start adding links to organize your digital world.</p>
-              </motion.div>
-            ) : (
-              filteredEntries.map((item) => (
-                <UrlCard
-                  key={item.id}
-                  item={item}
-                  viewMode={viewMode}
-                  onEdit={startEditing}
-                  onDelete={handleDeleteClick}
-                  onStatusUpdate={updateItemStatus}
-                  onArchiveToggle={updateItemArchived}
-                />
-              ))
-            )}
-          </AnimatePresence>
-        </motion.section>
-        </LayoutGroup>
+                ← Back to All Links
+              </button>
+            </div>
+          )}
+          <motion.section
+            className={`shelf-grid ${viewMode === 'list' ? 'list-view' : 'card-view'}`}
+          >
+            <AnimatePresence mode="popLayout">
+              {dbLoading ? (
+                 <div className="empty-state">
+                      <h3>Synchronizing...</h3>
+                  </div>
+              ) : filteredEntries.length === 0 ? (
+                <motion.div 
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="empty-state"
+                >
+                  <div className="empty-icon">
+                    <Clock size={48} strokeWidth={1} />
+                  </div>
+                  <h3>Your shelf is empty</h3>
+                  <p>Start adding links to organize your digital world.</p>
+                </motion.div>
+              ) : (
+                filteredEntries.map((item, index) => (
+                  <UrlCard
+                    key={item.id}
+                    item={item}
+                    cardIndex={index}
+                    viewMode={viewMode}
+                    onEdit={startEditing}
+                    onDelete={handleDeleteClick}
+                    onStatusUpdate={updateItemStatus}
+                    onArchiveToggle={updateItemArchived}
+                  />
+                ))
+              )}
+            </AnimatePresence>
+          </motion.section>
+          </LayoutGroup>
+        </div>
       </main>
 
       <footer style={{ padding: '2rem', textAlign: 'center', opacity: 0.5, fontSize: '0.8rem' }}>
