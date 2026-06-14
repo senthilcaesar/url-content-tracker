@@ -450,14 +450,14 @@
   gap: 0.6rem;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 0 0 1px var(--border-color);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 0 0 1px var(--border-color);
   transition: border-color 0.08s ease, box-shadow 0.08s ease, background-color 0.08s ease;
   will-change: transform, box-shadow;
 }
 
 .url-card:hover {
   border-color: color-mix(in srgb, var(--text-main) 25%, var(--border-color));
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14), 0 0 0 1px color-mix(in srgb, var(--text-main) 20%, var(--border-color));
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15), 0 0 0 1px color-mix(in srgb, var(--text-main) 20%, var(--border-color));
 }
 
 .list-view-card {
@@ -469,13 +469,13 @@
   border-radius: 14px;
   background: var(--surface-color);
   border: 1px solid var(--border-color);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
   transition: background-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .list-view-card:hover {
   background: var(--surface-muted);
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
 }
 
 .list-main {
@@ -635,6 +635,7 @@
 }
 
 .card-title {
+  font-family: var(--font-iosevka, 'Iosevka Charon', sans-serif);
   font-size: 1.1rem;
   margin-bottom: 0.25rem;
   line-height: 1.25;
@@ -3204,9 +3205,9 @@ body {
 /* ── URL Cards ── */
 .url-card {
   background: var(--cz-card);
-  border: 1.5px solid #cbd0d6;
+  border: 2px solid var(--cz-ink);
   border-radius: 18px;
-  box-shadow: 0 4px 12px rgba(26, 26, 26, 0.08);
+  box-shadow: 4px 4px 0 var(--cz-ink);
   font-family: 'Nunito', system-ui, sans-serif;
   transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
 }
@@ -3214,55 +3215,55 @@ body {
 [data-theme='dark'] .url-card,
 [data-theme='light'] .url-card {
   background: var(--cz-card);
-  border-color: #cbd0d6;
-  box-shadow: 0 4px 12px rgba(26, 26, 26, 0.08);
+  border-color: var(--cz-ink);
+  box-shadow: 4px 4px 0 var(--cz-ink);
 }
 
 [data-theme='dark'] .url-card {
-  border-color: #3a3a3a;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  border-color: var(--cz-ink);
+  box-shadow: 4px 4px 0 var(--cz-ink);
 }
 
 .url-card:hover {
-  transform: translate(-1px, -1px);
-  box-shadow: 0 8px 18px rgba(26, 26, 26, 0.12);
-  border-color: #b0b6be;
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--cz-ink);
+  border-color: var(--cz-ink);
 }
 
 [data-theme='light'] .url-card:hover {
-  box-shadow: 0 8px 18px rgba(26, 26, 26, 0.12);
-  border-color: #b0b6be;
+  box-shadow: 6px 6px 0 var(--cz-ink);
+  border-color: var(--cz-ink);
 }
 
 [data-theme='dark'] .url-card:hover {
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.45);
-  border-color: #4a4a4a;
+  box-shadow: 6px 6px 0 var(--cz-ink);
+  border-color: var(--cz-ink);
 }
 
 .list-view-card {
   background: var(--cz-card);
-  border: 1.5px solid #cbd0d6;
+  border: 2px solid var(--cz-ink);
   border-radius: 14px;
-  box-shadow: 0 2px 8px rgba(26, 26, 26, 0.06);
+  box-shadow: 3px 3px 0 var(--cz-ink);
 }
 
 [data-theme='dark'] .list-view-card {
-  border-color: #3a3a3a;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  border-color: var(--cz-ink);
+  box-shadow: 3px 3px 0 var(--cz-ink);
 }
 
 .list-view-card:hover {
   background: var(--cz-card);
   transform: translate(-1px, -1px);
-  box-shadow: 0 5px 14px rgba(26, 26, 26, 0.1);
+  box-shadow: 4px 4px 0 var(--cz-ink);
 }
 
 [data-theme='dark'] .list-view-card:hover {
-  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.4);
+  box-shadow: 4px 4px 0 var(--cz-ink);
 }
 
 .card-title {
-  font-family: 'Nunito', system-ui, sans-serif;
+  font-family: var(--font-iosevka, 'Iosevka Charon', sans-serif);
   font-weight: 900;
   color: var(--cz-ink);
   text-shadow: none;
