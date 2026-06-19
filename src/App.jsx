@@ -75,7 +75,8 @@ function App() {
       const q = searchQuery.toLowerCase();
       const matchesSearch = (item.title || '').toLowerCase().includes(q) ||
                           (item.url || '').toLowerCase().includes(q) ||
-                          (item.description || '').toLowerCase().includes(q);
+                          (item.description || '').toLowerCase().includes(q) ||
+                          (item.tags || []).some(tag => tag.toLowerCase().includes(q));
       const matchesStatus = filterStatus === 'All' || item.status === filterStatus;
       const matchesTag = !filterTag || (item.tags || []).includes(filterTag);
       return matchesSearch && matchesStatus && matchesTag;

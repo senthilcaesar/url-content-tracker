@@ -30,9 +30,9 @@
 }
 
 [data-theme='dark'] .ts-modal {
-  background: #1e1e1e;
-  border-color: #e5e5e5;
-  box-shadow: 4px 4px 0px #e5e5e5;
+  background: var(--surface-color);
+  border-color: var(--primary-color);
+  box-shadow: 4px 4px 0px color-mix(in srgb, var(--primary-color) 30%, transparent);
 }
 
 /* ── Decorative doodle elements ──────────────────────────── */
@@ -102,8 +102,8 @@
 }
 
 [data-theme='dark'] .ts-close {
-  border-color: #e5e5e5;
-  box-shadow: 2px 2px 0 #e5e5e5;
+  border-color: var(--border-color);
+  box-shadow: 2px 2px 0 var(--border-color);
 }
 
 /* ── Header ──────────────────────────────────────────────── */
@@ -191,8 +191,8 @@
 }
 
 [data-theme='dark'] .ts-card {
-  border-color: #e5e5e5;
-  box-shadow: 2.5px 2.5px 0 #e5e5e5;
+  border-color: var(--border-color);
+  box-shadow: 2.5px 2.5px 0 var(--border-color);
 }
 
 /* ── Card Icon ───────────────────────────────────────────── */
@@ -211,9 +211,9 @@
 }
 
 [data-theme='dark'] .ts-card-icon {
-  background: #2d2d2d;
-  border-color: #e5e5e5;
-  box-shadow: 2px 2px 0 #e5e5e5;
+  background: var(--surface-strong);
+  border-color: var(--border-color);
+  box-shadow: 2px 2px 0 var(--border-color);
 }
 
 /* ── Card Text ───────────────────────────────────────────── */
