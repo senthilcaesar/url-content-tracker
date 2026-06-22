@@ -1,32 +1,64 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { ExternalLink, Trash2, Edit3, Tag, ChevronDown, CalendarDays, Archive, ArchiveRestore, Copy, Check } from 'lucide-react';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import {
+  ExternalLink,
+  Trash2,
+  Edit3,
+  Tag,
+  ChevronDown,
+  CalendarDays,
+  Archive,
+  ArchiveRestore,
+  Copy,
+  Check,
+  Folder,
+} from "lucide-react";
 
-const STATUSES = ['Pending', 'In Progress', 'Read'];
+const STATUSES = ["Pending", "In Progress", "Read"];
 
-export function UrlCard({ item, cardIndex = 0, viewMode = 'card', onEdit, onDelete, onStatusUpdate, onArchiveToggle }) {
+export function UrlCard({
+  item,
+  cardIndex = 0,
+  viewMode = "card",
+  onEdit,
+  onDelete,
+  onStatusUpdate,
+  onArchiveToggle,
+}) {
   const enterDelay = Math.min(cardIndex * 0.08, 0.6);
 
   const motionProps = {
     initial: { opacity: 0, y: 32 },
-    animate: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1], delay: enterDelay } },
-    exit:    { opacity: 0, y: -12, transition: { duration: 0.2, ease: 'easeIn', delay: 0 } },
+    animate: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.45,
+        ease: [0.22, 1, 0.36, 1],
+        delay: enterDelay,
+      },
+    },
+    exit: {
+      opacity: 0,
+      y: -12,
+      transition: { duration: 0.2, ease: "easeIn", delay: 0 },
+    },
   };
 
   const hoverTransition = {
     type: "spring",
     stiffness: 480,
     damping: 26,
-    mass: 0.65
+    mass: 0.65,
   };
 
   const getPriorityMeta = (priority) => {
-    if (typeof priority === 'string') {
+    if (typeof priority === "string") {
       const normalized = priority.toLowerCase();
-      if (['low', 'medium', 'high'].includes(normalized)) {
+      if (["low", "medium", "high"].includes(normalized)) {
         return {
           label: priority,
-          className: normalized
+          className: normalized,
         };
       }
     }
@@ -34,30 +66,30 @@ export function UrlCard({ item, cardIndex = 0, viewMode = 'card', onEdit, onDele
     const numericPriority = Number(priority);
     if (!Number.isNaN(numericPriority)) {
       if (numericPriority >= 4) {
-        return { label: `Priority ${numericPriority}`, className: 'high' };
+        return { label: `Priority ${numericPriority}`, className: "high" };
       }
       if (numericPriority >= 2) {
-        return { label: `Priority ${numericPriority}`, className: 'medium' };
+        return { label: `Priority ${numericPriority}`, className: "medium" };
       }
-      return { label: `Priority ${numericPriority}`, className: 'low' };
+      return { label: `Priority ${numericPriority}`, className: "low" };
     }
 
-    return { label: 'Medium', className: 'medium' };
+    return { label: "Medium", className: "medium" };
   };
 
   const getFormattedDate = () => {
     const rawDate = item.createdDate || item.createdAt;
-    if (!rawDate) return 'Date unknown';
+    if (!rawDate) return "Date unknown";
 
     const parsedDate = new Date(rawDate);
     if (Number.isNaN(parsedDate.getTime())) {
-      return 'Date unknown';
+      return "Date unknown";
     }
 
-    return new Intl.DateTimeFormat('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric'
+    return new Intl.DateTimeFormat("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
     }).format(parsedDate);
   };
 
@@ -71,45 +103,51 @@ export function UrlCard({ item, cardIndex = 0, viewMode = 'card', onEdit, onDele
     });
   };
 
-  const statusClass = (item.status || 'Pending').replace(/\s+/g, '').toLowerCase();
+  const statusClass = (item.status || "Pending")
+    .replace(/\s+/g, "")
+    .toLowerCase();
   const priorityMeta = getPriorityMeta(item.priority);
   const formattedDate = getFormattedDate();
 
   const COLOR_HEX = {
-    red:      '#ef4444',
-    crimson:  '#be123c',
-    rose:     '#f43f5e',
-    pink:     '#ec4899',
-    fuchsia:  '#d946ef',
-    purple:   '#a855f7',
-    violet:   '#8b5cf6',
-    indigo:   '#6366f1',
-    blue:     '#3b82f6',
-    sky:      '#0ea5e9',
-    cyan:     '#06b6d4',
-    teal:     '#14b8a6',
-    emerald:  '#10b981',
-    green:    '#22c55e',
-    lime:     '#84cc16',
-    yellow:   '#eab308',
-    amber:    '#f59e0b',
-    orange:   '#f97316',
-    brown:    '#78350f',
-    slate:    '#64748b',
-    gray:     '#9ca3af',
+    red: "#ef4444",
+    crimson: "#be123c",
+    rose: "#f43f5e",
+    pink: "#ec4899",
+    fuchsia: "#d946ef",
+    purple: "#a855f7",
+    violet: "#8b5cf6",
+    indigo: "#6366f1",
+    blue: "#3b82f6",
+    sky: "#0ea5e9",
+    cyan: "#06b6d4",
+    teal: "#14b8a6",
+    emerald: "#10b981",
+    green: "#22c55e",
+    lime: "#84cc16",
+    yellow: "#eab308",
+    amber: "#f59e0b",
+    orange: "#f97316",
+    brown: "#78350f",
+    slate: "#64748b",
+    gray: "#9ca3af",
   };
-  const accentColor = item.color && item.color !== 'none' ? COLOR_HEX[item.color] : null;
+  const accentColor =
+    item.color && item.color !== "none" ? COLOR_HEX[item.color] : null;
   const accentStyle = accentColor
     ? {
         backgroundColor: `color-mix(in srgb, ${accentColor} 12%, var(--surface-color))`,
       }
     : {};
 
-  if (viewMode === 'list') {
+  if (viewMode === "list") {
     return (
       <motion.div
         {...motionProps}
-        whileHover={{ x: 4, transition: { type: 'tween', duration: 0.08, ease: 'easeOut' } }}
+        whileHover={{
+          x: 4,
+          transition: { type: "tween", duration: 0.08, ease: "easeOut" },
+        }}
         className="url-card list-view-card"
         style={accentStyle}
       >
@@ -122,35 +160,59 @@ export function UrlCard({ item, cardIndex = 0, viewMode = 'card', onEdit, onDele
               </span>
               <div className="status-dropdown">
                 <select
-                  value={item.status || 'Pending'}
+                  value={item.status || "Pending"}
                   onChange={(e) => onStatusUpdate(item.id, e.target.value)}
                   className={`status-select ${statusClass}`}
                 >
-                  {STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
+                  {STATUSES.map((s) => (
+                    <option key={s} value={s}>
+                      {s}
+                    </option>
+                  ))}
                 </select>
-                <ChevronDown size={14} className="status-chevron" aria-hidden="true" />
+                <ChevronDown
+                  size={14}
+                  className="status-chevron"
+                  aria-hidden="true"
+                />
               </div>
             </div>
           </div>
 
-          <p className="card-desc">{item.description || 'No description provided.'}</p>
+          <p className="card-desc">
+            {item.description || "No description provided."}
+          </p>
 
           <div className="list-meta-row">
+            {item.folder && (
+              <span className="folder-tag">
+                <Folder size={12} />
+                {item.folder}
+              </span>
+            )}
             <span className="category-tag">
               <Tag size={12} />
-              {item.category || 'General'}
+              {item.category || "General"}
             </span>
             <span className="date-tag">
               <CalendarDays size={12} />
               {formattedDate}
             </span>
-            {(item.tags || []).map(tag => (
-              <span key={tag} className="tag-chip">{tag}</span>
+            {(item.tags || []).map((tag) => (
+              <span key={tag} className="tag-chip">
+                {tag}
+              </span>
             ))}
             <div className="card-url">
               <ExternalLink size={14} />
-              <a href={item.url} target="_blank" rel="noopener noreferrer">{item.url}</a>
-              <button className={`copy-url-btn${copied ? ' copied' : ''}`} onClick={copyUrl} title={copied ? 'Copied!' : 'Copy URL'}>
+              <a href={item.url} target="_blank" rel="noopener noreferrer">
+                {item.url}
+              </a>
+              <button
+                className={`copy-url-btn${copied ? " copied" : ""}`}
+                onClick={copyUrl}
+                title={copied ? "Copied!" : "Copy URL"}
+              >
                 {copied ? <Check size={13} /> : <Copy size={13} />}
               </button>
             </div>
@@ -161,13 +223,21 @@ export function UrlCard({ item, cardIndex = 0, viewMode = 'card', onEdit, onDele
           <div className="card-actions">
             <button
               onClick={() => onArchiveToggle(item.id, !item.archived)}
-              title={item.archived ? 'Unarchive' : 'Archive'}
-              className={item.archived ? 'archive-active' : ''}
+              title={item.archived ? "Unarchive" : "Archive"}
+              className={item.archived ? "archive-active" : ""}
             >
-              {item.archived ? <ArchiveRestore size={16} /> : <Archive size={16} />}
+              {item.archived ? (
+                <ArchiveRestore size={16} />
+              ) : (
+                <Archive size={16} />
+              )}
             </button>
-            <button onClick={() => onEdit(item)} title="Edit"><Edit3 size={16} /></button>
-            <button onClick={() => onDelete(item.id)} title="Delete"><Trash2 size={16} /></button>
+            <button onClick={() => onEdit(item)} title="Edit">
+              <Edit3 size={16} />
+            </button>
+            <button onClick={() => onDelete(item.id)} title="Delete">
+              <Trash2 size={16} />
+            </button>
           </div>
         </div>
       </motion.div>
@@ -175,10 +245,13 @@ export function UrlCard({ item, cardIndex = 0, viewMode = 'card', onEdit, onDele
   }
 
   return (
-    <motion.div 
+    <motion.div
       {...motionProps}
-      whileHover={{ y: -6, transition: { type: 'tween', duration: 0.08, ease: 'easeOut' } }}
-      className={`url-card ${viewMode === 'list' ? 'list-view-card' : ''}`}
+      whileHover={{
+        y: -6,
+        transition: { type: "tween", duration: 0.08, ease: "easeOut" },
+      }}
+      className={`url-card ${viewMode === "list" ? "list-view-card" : ""}`}
       style={accentStyle}
     >
       <div className="card-header">
@@ -188,29 +261,51 @@ export function UrlCard({ item, cardIndex = 0, viewMode = 'card', onEdit, onDele
         <div className="card-actions">
           <button
             onClick={() => onArchiveToggle(item.id, !item.archived)}
-            title={item.archived ? 'Unarchive' : 'Archive'}
-            className={item.archived ? 'archive-active' : ''}
+            title={item.archived ? "Unarchive" : "Archive"}
+            className={item.archived ? "archive-active" : ""}
           >
-            {item.archived ? <ArchiveRestore size={16} /> : <Archive size={16} />}
+            {item.archived ? (
+              <ArchiveRestore size={16} />
+            ) : (
+              <Archive size={16} />
+            )}
           </button>
-          <button onClick={() => onEdit(item)} title="Edit"><Edit3 size={16} /></button>
-          <button onClick={() => onDelete(item.id)} title="Delete"><Trash2 size={16} /></button>
+          <button onClick={() => onEdit(item)} title="Edit">
+            <Edit3 size={16} />
+          </button>
+          <button onClick={() => onDelete(item.id)} title="Delete">
+            <Trash2 size={16} />
+          </button>
         </div>
       </div>
-      
+
       <div className="card-body">
         <h3 className="card-title">{item.title || item.url}</h3>
-        <p className="card-desc">{item.description || 'No description provided.'}</p>
+        <p className="card-desc">
+          {item.description || "No description provided."}
+        </p>
         {(item.tags || []).length > 0 && (
-          <div className="card-tags" style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', margin: '6px 0' }}>
-            {(item.tags).map(tag => (
-              <span key={tag} className="tag-chip">{tag}</span>
+          <div
+            className="card-tags"
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "4px",
+              margin: "6px 0",
+            }}
+          >
+            {item.tags.map((tag) => (
+              <span key={tag} className="tag-chip">
+                {tag}
+              </span>
             ))}
           </div>
         )}
         <div className="card-url">
           <ExternalLink size={14} />
-          <a href={item.url} target="_blank" rel="noopener noreferrer">{item.url}</a>
+          <a href={item.url} target="_blank" rel="noopener noreferrer">
+            {item.url}
+          </a>
           <button className="copy-url-btn" onClick={copyUrl} title="Copy URL">
             {copied ? <Check size={13} /> : <Copy size={13} />}
           </button>
@@ -219,9 +314,15 @@ export function UrlCard({ item, cardIndex = 0, viewMode = 'card', onEdit, onDele
 
       <div className="card-footer">
         <div className="card-meta">
+          {item.folder && (
+            <span className="folder-tag">
+              <Folder size={12} />
+              {item.folder}
+            </span>
+          )}
           <span className="category-tag">
             <Tag size={12} />
-            {item.category || 'General'}
+            {item.category || "General"}
           </span>
           <span className="date-tag">
             <CalendarDays size={12} />
@@ -229,14 +330,22 @@ export function UrlCard({ item, cardIndex = 0, viewMode = 'card', onEdit, onDele
           </span>
         </div>
         <div className="status-dropdown">
-          <select 
-            value={item.status || 'Pending'} 
+          <select
+            value={item.status || "Pending"}
             onChange={(e) => onStatusUpdate(item.id, e.target.value)}
             className={`status-select ${statusClass}`}
           >
-            {STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
+            {STATUSES.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
           </select>
-          <ChevronDown size={14} className="status-chevron" aria-hidden="true" />
+          <ChevronDown
+            size={14}
+            className="status-chevron"
+            aria-hidden="true"
+          />
         </div>
       </div>
     </motion.div>
