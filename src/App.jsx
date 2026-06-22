@@ -15,6 +15,8 @@ import {
   FolderOpen,
   ChevronLeft,
   Palette,
+  PanelLeftClose,
+  PanelLeftOpen,
 } from "lucide-react";
 
 import { UrlForm } from "./components/UrlForm";
@@ -72,6 +74,9 @@ function App() {
   const [viewMode, setViewMode] = useState(
     () => localStorage.getItem("viewMode") || "card",
   );
+  // Always start minimized whenever the app is opened; toggling is
+  // session-only (not persisted), so a fresh load is always collapsed.
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
 
   useEffect(() => {
     localStorage.setItem("theme", theme);
@@ -410,10 +415,36 @@ function App() {
         </div>
       </header>
 
-      <main className="main-content">
+      <main
+        className={`main-content ${sidebarCollapsed ? "sidebar-collapsed" : ""}`}
+      >
+        {sidebarCollapsed && (
+          <button
+            type="button"
+            className="sidebar-expand-btn"
+            onClick={() => setSidebarCollapsed(false)}
+            title="Expand sidebar"
+            aria-label="Expand sidebar"
+            aria-expanded={false}
+          >
+            <PanelLeftOpen size={18} />
+          </button>
+        )}
         <aside className="sidebar">
           <nav className="filter-nav status-nav">
-            <h3>Status</h3>
+            <div className="filter-nav-header">
+              <h3>Status</h3>
+              <button
+                type="button"
+                className="sidebar-toggle"
+                onClick={() => setSidebarCollapsed(true)}
+                title="Minimize sidebar"
+                aria-label="Minimize sidebar"
+                aria-expanded={true}
+              >
+                <PanelLeftClose size={16} />
+              </button>
+            </div>
             <button
               className={`filter-btn ${filterStatus === "All" ? "active" : ""}`}
               onClick={() => setFilterStatus("All")}
@@ -523,7 +554,7 @@ function App() {
                 <p>Start adding links to organize your digital world.</p>
               </motion.div>
             ) : activeFolder === null ? (
-              /* ── Folder browser: double-click a folder to go inside ── */
+              /* ── Folder browser: click a folder to go inside ── */
               <motion.section
                 className="folder-browser-grid"
                 initial={{ opacity: 0 }}
@@ -541,14 +572,14 @@ function App() {
                       key={name}
                       className={`folder-tile ${isNone ? "unfiled" : ""} ${accent ? "colored" : ""}`}
                       style={accent ? { "--folder-accent": accent } : undefined}
-                      onDoubleClick={() => setActiveFolder(name)}
+                      onClick={() => setActiveFolder(name)}
                       onKeyDown={(e) => {
                         if (e.key === "Enter" || e.key === " ") {
                           e.preventDefault();
                           setActiveFolder(name);
                         }
                       }}
-                      title={`Double-click to open “${label}”`}
+                      title={`Open “${label}”`}
                       whileHover={{
                         y: -2,
                         transition: {
