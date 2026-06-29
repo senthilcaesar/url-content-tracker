@@ -240,7 +240,7 @@ export function UrlForm({
             <div className="hud-title-icon">
               <Terminal size={18} strokeWidth={2.5} />
             </div>
-            <h2>{editingEntry ? "Edit Link!" : "Add Link!"}</h2>
+            <h2>{editingEntry && editingEntry.id ? "Edit Link!" : "Add Link!"}</h2>
             <div className="hud-status-indicator">
               <span className="status-dot green"></span>
               <span className="status-text">ready</span>
@@ -702,7 +702,7 @@ export function UrlForm({
                   Cancel
                 </button>
                 <button type="submit" className="hud-btn hud-btn-commit">
-                  {editingEntry ? "Save Changes" : "Add to Shelf"}
+                  {editingEntry && editingEntry.id ? "Save Changes" : "Add to Shelf"}
                 </button>
               </div>
             </form>

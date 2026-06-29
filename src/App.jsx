@@ -60,6 +60,23 @@ const CURATED_EMOJIS = [
   "🌐", "☕", "🎯", "🔧",
 ];
 
+// Robust helper to normalize URLs for comparison (ignores protocol, www, trailing slashes, queries, and hash fragments)
+const normalizeUrl = (urlStr) => {
+  if (!urlStr) return "";
+  try {
+    let cleanUrl = urlStr.trim().toLowerCase();
+    if (!/^https?:\/\//i.test(cleanUrl)) {
+      cleanUrl = "https://" + cleanUrl;
+    }
+    const urlObj = new URL(cleanUrl);
+    const host = urlObj.hostname.replace(/^www\./i, "");
+    const path = urlObj.pathname.replace(/\/$/, "");
+    return host + path;
+  } catch (e) {
+    return urlStr.trim().toLowerCase().replace(/^https?:\/\//i, "").replace(/^www\./i, "").replace(/\/$/, "");
+  }
+};
+
 function App() {
   const { user, loading: authLoading, loginWithGoogle, logout } = useAuth();
   const {
@@ -71,6 +88,7 @@ function App() {
   } = useFirestore(user?.uid);
 
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [hasPrefilledFromUrl, setHasPrefilledFromUrl] = useState(false);
   const [editingEntry, setEditingEntry] = useState(null);
   const [isTechStackOpen, setIsTechStackOpen] = useState(false);
   const [deleteModal, setDeleteModal] = useState({ isOpen: false, item: null });
@@ -253,6 +271,76 @@ function App() {
     }
   }, [emojiPickerFor, folderEmojis]);
 
+  // Detect extension query parameters on mount and pre-fill form
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const source = params.get("source");
+    if (source === "extension") {
+      document.body.classList.add("extension-mode");
+    }
+    return () => {
+      document.body.classList.remove("extension-mode");
+    };
+  }, []);
+
+  // Pre-fill the form once entries have loaded and if the URL is not already saved
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const source = params.get("source");
+    if (source !== "extension") return;
+
+    const addUrl = params.get("add_url");
+    if (!addUrl) return;
+
+    const normalizedAddUrl = normalizeUrl(addUrl);
+    
+    // Check if the URL is already in our list of entries
+    const alreadyExists = entries.some((entry) => {
+      if (!entry.url) return false;
+      return normalizeUrl(entry.url) === normalizedAddUrl;
+    });
+
+    if (alreadyExists) {
+      // If it exists and the prefilled form is open (no id), close it!
+      if (isFormOpen && (!editingEntry || !editingEntry.id)) {
+        setIsFormOpen(false);
+        setEditingEntry(null);
+      }
+    } else {
+      // If it does NOT exist and we haven't prefilled it yet, open the form!
+      if (!hasPrefilledFromUrl && !dbLoading && !authLoading && user) {
+        setEditingEntry({
+          url: addUrl,
+          title: params.get("add_title") || "",
+          description: "",
+          status: "Pending",
+          category: "Read Later",
+          priority: "Medium",
+          color: "none",
+          folder: "",
+          tags: [],
+        });
+        setIsFormOpen(true);
+        setHasPrefilledFromUrl(true);
+      }
+    }
+  }, [entries, dbLoading, authLoading, user, isFormOpen, editingEntry, hasPrefilledFromUrl]);
+
+  // Toggle body class 'modal-open' in extension mode to prevent double scrollbars
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("source") === "extension") {
+      if (isFormOpen) {
+        document.body.classList.add("modal-open");
+      } else {
+        document.body.classList.remove("modal-open");
+      }
+    }
+    return () => {
+      document.body.classList.remove("modal-open");
+    };
+  }, [isFormOpen]);
+
   const setFolderColor = (name, hex) => {
     setFolderColors((prev) => {
       const next = { ...prev };
@@ -280,11 +368,20 @@ function App() {
     }
 
     try {
-      if (editingEntry) {
+      if (editingEntry && editingEntry.id) {
         await updateEntry(editingEntry.id, formData);
         setEditingEntry(null);
       } else {
         await addEntry(formData);
+      }
+
+      // Close extension popup window after adding
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("source") === "extension") {
+        window.parent.postMessage({ type: "CLOSE_EXT_POPUP" }, "*");
+        setTimeout(() => {
+          window.close();
+        }, 150);
       }
     } catch (error) {
       console.error("Operation failed:", error);
@@ -928,6 +1025,11 @@ function App() {
             onClose={() => {
               setEditingEntry(null);
               setIsFormOpen(false);
+              const params = new URLSearchParams(window.location.search);
+              if (params.get("source") === "extension") {
+                window.parent.postMessage({ type: "CLOSE_EXT_POPUP" }, "*");
+                window.close();
+              }
             }}
             editingEntry={editingEntry}
             existingFolders={allFolders}

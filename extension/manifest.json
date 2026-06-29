@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "ZenShelf Companion",
+  "version": "1.0",
+  "description": "Save pages directly to your ZenShelf sidebar",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_icon": {
+      "16": "icon16.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    },
+    "default_title": "Save to ZenShelf Sidebar"
+  },
+  "side_panel": {
+    "default_path": "popup.html"
+  },
+  "permissions": [
+    "activeTab",
+    "sidePanel",
+    "tabs"
+  ]
+}

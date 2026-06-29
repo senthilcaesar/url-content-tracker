@@ -42,6 +42,8 @@ export function useFirestore(userId) {
       return;
     }
 
+    setLoading(true);
+
     const q = query(
       collection(db, 'entries'),
       where('userId', '==', userId),

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      background-color: #0f172a; /* matches ZenShelf dark theme */
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    .frame-container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+    }
+    .loader-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #e5e5e5;
+      background-color: #0f172a;
+      z-index: 1;
+      transition: opacity 0.3s ease;
+    }
+    .spinner {
+      width: 28px;
+      height: 28px;
+      border: 3px solid rgba(20, 184, 166, 0.2);
+      border-top-color: #14b8a6;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 10px;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 2;
+      position: relative;
+    }
+    iframe.loaded {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="frame-container">
+    <div class="loader-container" id="loader">
+      <div class="spinner"></div>
+      <div style="font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; color: #14b8a6;">CONNECTING_SHELF</div>
+    </div>
+    <iframe id="shelf-frame"></iframe>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
