@@ -17,6 +17,7 @@ import {
   Palette,
   PanelLeftClose,
   PanelLeftOpen,
+  Smile,
 } from "lucide-react";
 
 import { UrlForm } from "./components/UrlForm";
@@ -47,6 +48,16 @@ const FOLDER_COLOR_OPTIONS = [
   { value: "violet", hex: "#8b5cf6" },
   { value: "pink", hex: "#ec4899" },
   { value: "slate", hex: "#64748b" },
+];
+
+// Curated emojis offered when customizing a folder.
+const CURATED_EMOJIS = [
+  "💻", "💼", "🚀", "💡", "🎨",
+  "🎵", "🎮", "🏠", "📦", "📌",
+  "❤️", "⭐", "📚", "🔬", "🔍",
+  "📝", "💬", "📢", "🎬", "✈️",
+  "🤖", "⚙️", "🧠", "🤔", "🗣️",
+  "🌐", "☕", "🎯", "🔧",
 ];
 
 function App() {
@@ -178,6 +189,18 @@ function App() {
   const [colorPickerFor, setColorPickerFor] = useState(null);
   const colorPickerRef = useRef(null);
 
+  // Per-folder emojis, keyed by folder name → emoji string. Persisted locally.
+  const [folderEmojis, setFolderEmojis] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem("folderEmojis") || "{}");
+    } catch {
+      return {};
+    }
+  });
+  const [emojiPickerFor, setEmojiPickerFor] = useState(null);
+  const emojiPickerRef = useRef(null);
+  const [customEmoji, setCustomEmoji] = useState("");
+
   // Footer tints to the most recently applied folder color (null = default).
   const [footerColor, setFooterColor] = useState(
     () => localStorage.getItem("footerColor") || null,
@@ -193,6 +216,10 @@ function App() {
   }, [folderColors]);
 
   useEffect(() => {
+    localStorage.setItem("folderEmojis", JSON.stringify(folderEmojis));
+  }, [folderEmojis]);
+
+  useEffect(() => {
     if (colorPickerFor === null) return;
     const handleDown = (event) => {
       if (
@@ -206,6 +233,26 @@ function App() {
     return () => document.removeEventListener("mousedown", handleDown);
   }, [colorPickerFor]);
 
+  useEffect(() => {
+    if (emojiPickerFor === null) return;
+    const handleDown = (event) => {
+      if (
+        emojiPickerRef.current &&
+        !emojiPickerRef.current.contains(event.target)
+      ) {
+        setEmojiPickerFor(null);
+      }
+    };
+    document.addEventListener("mousedown", handleDown);
+    return () => document.removeEventListener("mousedown", handleDown);
+  }, [emojiPickerFor]);
+
+  useEffect(() => {
+    if (emojiPickerFor !== null) {
+      setCustomEmoji(folderEmojis[emojiPickerFor] || "");
+    }
+  }, [emojiPickerFor, folderEmojis]);
+
   const setFolderColor = (name, hex) => {
     setFolderColors((prev) => {
       const next = { ...prev };
@@ -214,6 +261,15 @@ function App() {
       return next;
     });
     setFooterColor(hex || null);
+  };
+
+  const setFolderEmoji = (name, emoji) => {
+    setFolderEmojis((prev) => {
+      const next = { ...prev };
+      if (emoji) next[name] = emoji;
+      else delete next[name];
+      return next;
+    });
   };
 
   const handleAddOrUpdate = async (formData) => {
@@ -556,7 +612,7 @@ function App() {
             ) : activeFolder === null ? (
               /* ── Folder browser: click a folder to go inside ── */
               <motion.section
-                className="folder-browser-grid"
+                className={`folder-browser-grid ${viewMode === "list" ? "list-view" : ""}`}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
               >
@@ -564,13 +620,14 @@ function App() {
                   const isNone = name === FOLDER_NONE;
                   const label = isNone ? "Unfiled" : name;
                   const accent = folderColors[name];
+                  const emoji = folderEmojis[name];
                   return (
                     <motion.div
                       layout
                       role="button"
                       tabIndex={0}
                       key={name}
-                      className={`folder-tile ${isNone ? "unfiled" : ""} ${accent ? "colored" : ""}`}
+                      className={`folder-tile ${isNone ? "unfiled" : ""} ${accent ? "colored" : ""} ${colorPickerFor === name || emojiPickerFor === name ? "popover-open" : ""}`}
                       style={accent ? { "--folder-accent": accent } : undefined}
                       onClick={() => setActiveFolder(name)}
                       onKeyDown={(e) => {
@@ -589,72 +646,166 @@ function App() {
                         },
                       }}
                     >
-                      <div
-                        className="folder-color-control"
-                        ref={colorPickerFor === name ? colorPickerRef : null}
-                      >
-                        <button
-                          type="button"
-                          className="folder-color-btn"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setColorPickerFor(
-                              colorPickerFor === name ? null : name,
-                            );
-                          }}
-                          onDoubleClick={(e) => e.stopPropagation()}
-                          title="Customize folder color"
-                          aria-label="Customize folder color"
+                      <div className="folder-controls-group">
+                        <div
+                          className="folder-color-control"
+                          ref={colorPickerFor === name ? colorPickerRef : null}
                         >
-                          <Palette size={15} />
-                        </button>
-                        <AnimatePresence>
-                          {colorPickerFor === name && (
-                            <motion.div
-                              className="folder-color-popover"
-                              initial={{ opacity: 0, y: -6 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              exit={{ opacity: 0, y: -6 }}
-                              transition={{ duration: 0.14 }}
-                              onClick={(e) => e.stopPropagation()}
-                              onDoubleClick={(e) => e.stopPropagation()}
-                            >
-                              <button
-                                type="button"
-                                className={`folder-swatch none ${!accent ? "active" : ""}`}
-                                onClick={() => {
-                                  setFolderColor(name, null);
-                                  setColorPickerFor(null);
-                                }}
-                                title="Default"
-                                aria-label="Default color"
+                          <button
+                            type="button"
+                            className="folder-color-btn"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setColorPickerFor(
+                                colorPickerFor === name ? null : name,
+                              );
+                              setEmojiPickerFor(null);
+                            }}
+                            onDoubleClick={(e) => e.stopPropagation()}
+                            title="Customize folder color"
+                            aria-label="Customize folder color"
+                          >
+                            <Palette size={15} />
+                          </button>
+                          <AnimatePresence>
+                            {colorPickerFor === name && (
+                              <motion.div
+                                className="folder-color-popover"
+                                initial={{ opacity: 0, y: -6 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -6 }}
+                                transition={{ duration: 0.14 }}
+                                onClick={(e) => e.stopPropagation()}
+                                onDoubleClick={(e) => e.stopPropagation()}
                               >
-                                <span className="null-indicator">∅</span>
-                              </button>
-                              {FOLDER_COLOR_OPTIONS.map(({ value, hex }) => (
                                 <button
-                                  key={value}
                                   type="button"
-                                  className={`folder-swatch ${accent === hex ? "active" : ""}`}
-                                  style={{ "--swatch": hex }}
+                                  className={`folder-swatch none ${!accent ? "active" : ""}`}
                                   onClick={() => {
-                                    setFolderColor(name, hex);
+                                    setFolderColor(name, null);
                                     setColorPickerFor(null);
                                   }}
-                                  title={value}
-                                  aria-label={value}
-                                />
-                              ))}
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
+                                  title="Default"
+                                  aria-label="Default color"
+                                >
+                                  <span className="null-indicator">∅</span>
+                                </button>
+                                {FOLDER_COLOR_OPTIONS.map(({ value, hex }) => (
+                                  <button
+                                    key={value}
+                                    type="button"
+                                    className={`folder-swatch ${accent === hex ? "active" : ""}`}
+                                    style={{ "--swatch": hex }}
+                                    onClick={() => {
+                                      setFolderColor(name, hex);
+                                      setColorPickerFor(null);
+                                    }}
+                                    title={value}
+                                    aria-label={value}
+                                  />
+                                ))}
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
+
+                        {!isNone && (
+                          <div
+                            className="folder-emoji-control"
+                            ref={emojiPickerFor === name ? emojiPickerRef : null}
+                          >
+                            <button
+                              type="button"
+                              className="folder-emoji-btn"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setEmojiPickerFor(
+                                  emojiPickerFor === name ? null : name,
+                                );
+                                setColorPickerFor(null);
+                              }}
+                              onDoubleClick={(e) => e.stopPropagation()}
+                              title="Customize folder emoji"
+                              aria-label="Customize folder emoji"
+                            >
+                              <Smile size={15} />
+                            </button>
+                            <AnimatePresence>
+                              {emojiPickerFor === name && (
+                                <motion.div
+                                  className="folder-emoji-popover"
+                                  initial={{ opacity: 0, y: -6 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  exit={{ opacity: 0, y: -6 }}
+                                  transition={{ duration: 0.14 }}
+                                  onClick={(e) => e.stopPropagation()}
+                                  onDoubleClick={(e) => e.stopPropagation()}
+                                >
+                                  <div className="folder-emoji-grid">
+                                    <button
+                                      type="button"
+                                      className={`folder-emoji-swatch none ${!emoji ? "active" : ""}`}
+                                      onClick={() => {
+                                        setFolderEmoji(name, null);
+                                        setEmojiPickerFor(null);
+                                      }}
+                                      title="No emoji"
+                                      aria-label="No emoji"
+                                    >
+                                      ∅
+                                    </button>
+                                    {CURATED_EMOJIS.map((curatedEmoji) => (
+                                      <button
+                                        key={curatedEmoji}
+                                        type="button"
+                                        className={`folder-emoji-swatch ${emoji === curatedEmoji ? "active" : ""}`}
+                                        onClick={() => {
+                                          setFolderEmoji(name, curatedEmoji);
+                                          setEmojiPickerFor(null);
+                                        }}
+                                        title={curatedEmoji}
+                                        aria-label={curatedEmoji}
+                                      >
+                                        {curatedEmoji}
+                                      </button>
+                                    ))}
+                                  </div>
+                                  <div className="folder-emoji-custom-row">
+                                    <input
+                                      type="text"
+                                      placeholder="Or paste one..."
+                                      maxLength={4}
+                                      value={customEmoji}
+                                      onChange={(e) => {
+                                        const val = e.target.value;
+                                        setCustomEmoji(val);
+                                        if (val.trim()) {
+                                          setFolderEmoji(name, val.trim());
+                                        } else {
+                                          setFolderEmoji(name, null);
+                                        }
+                                      }}
+                                      className="folder-emoji-custom-input"
+                                    />
+                                  </div>
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </div>
+                        )}
                       </div>
 
                       <div className="folder-tile-icon">
                         <div className="folder-graphic">
                           <span className="folder-graphic-back" />
                           <span className="folder-graphic-paper" />
-                          <span className="folder-graphic-front" />
+                          <span className="folder-graphic-front">
+                            {emoji && (
+                              <span className="folder-emoji-sticker">
+                                {emoji}
+                              </span>
+                            )}
+                          </span>
                         </div>
                       </div>
                       <div className="folder-tile-body">
@@ -680,15 +831,21 @@ function App() {
                     <span>Folders</span>
                   </button>
                   <div className="folder-crumb-title">
-                    <FolderOpen
-                      size={18}
-                      className="folder-section-icon"
-                      style={
-                        folderColors[activeFolder]
-                          ? { color: folderColors[activeFolder] }
-                          : undefined
-                      }
-                    />
+                    {folderEmojis[activeFolder] ? (
+                      <span className="folder-crumb-emoji" style={{ fontSize: "1.2rem", marginRight: "8px" }}>
+                        {folderEmojis[activeFolder]}
+                      </span>
+                    ) : (
+                      <FolderOpen
+                        size={18}
+                        className="folder-section-icon"
+                        style={
+                          folderColors[activeFolder]
+                            ? { color: folderColors[activeFolder] }
+                            : undefined
+                        }
+                      />
+                    )}
                     <span
                       className={activeFolder === FOLDER_NONE ? "unfiled" : ""}
                     >
@@ -731,6 +888,7 @@ function App() {
                           onDelete={handleDeleteClick}
                           onStatusUpdate={updateItemStatus}
                           onArchiveToggle={updateItemArchived}
+                          folderEmojis={folderEmojis}
                         />
                       ))}
                     </AnimatePresence>
@@ -765,6 +923,7 @@ function App() {
             }}
             editingEntry={editingEntry}
             existingFolders={allFolders}
+            folderEmojis={folderEmojis}
           />
         )}
       </AnimatePresence>

@@ -74,6 +74,7 @@ export function UrlForm({
   onClose,
   editingEntry,
   existingFolders = [],
+  folderEmojis = {},
 }) {
   const initialFormState = {
     url: "",
@@ -452,11 +453,15 @@ export function UrlForm({
                       type="button"
                       className={`hud-custom-select-trigger ${folderOpen ? "open" : ""}`}
                       onClick={() => setFolderOpen(!folderOpen)}
+                      style={{ display: "flex", alignItems: "center", gap: "6px" }}
                     >
-                      <span className={formData.folder ? "" : "placeholder"}>
-                        {formData.folder || "No folder"}
+                      <span className={formData.folder ? "" : "placeholder"} style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                        {formData.folder && folderEmojis[formData.folder] && (
+                          <span className="hud-folder-dropdown-emoji">{folderEmojis[formData.folder]}</span>
+                        )}
+                        <span>{formData.folder || "No folder"}</span>
                       </span>
-                      <ChevronDown size={14} className="chevron-icon" />
+                      <ChevronDown size={14} className="chevron-icon" style={{ marginLeft: "auto" }} />
                     </button>
                     <AnimatePresence>
                       {folderOpen && (
@@ -476,18 +481,23 @@ export function UrlForm({
                           >
                             No folder
                           </li>
-                          {existingFolders.map((f) => (
-                            <li
-                              key={f}
-                              className={`hud-custom-dropdown-item ${formData.folder === f ? "selected" : ""}`}
-                              onClick={() => {
-                                setFormData({ ...formData, folder: f });
-                                setFolderOpen(false);
-                              }}
-                            >
-                              {f}
-                            </li>
-                          ))}
+                          {existingFolders.map((f) => {
+                            const emoji = folderEmojis[f];
+                            return (
+                              <li
+                                key={f}
+                                className={`hud-custom-dropdown-item ${formData.folder === f ? "selected" : ""}`}
+                                onClick={() => {
+                                  setFormData({ ...formData, folder: f });
+                                  setFolderOpen(false);
+                                }}
+                                style={{ display: "flex", alignItems: "center", gap: "6px" }}
+                              >
+                                {emoji && <span className="hud-folder-dropdown-emoji">{emoji}</span>}
+                                <span>{f}</span>
+                              </li>
+                            );
+                          })}
                           <li
                             className="hud-custom-dropdown-item hud-folder-new-item"
                             onClick={() => {

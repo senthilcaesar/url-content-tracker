@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion";
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   ExternalLink,
   Trash2,
@@ -24,8 +24,23 @@ export function UrlCard({
   onDelete,
   onStatusUpdate,
   onArchiveToggle,
+  folderEmojis = {},
 }) {
   const enterDelay = Math.min(cardIndex * 0.08, 0.6);
+
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    if (!dropdownOpen) return;
+    const handleDown = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleDown);
+    return () => document.removeEventListener("mousedown", handleDown);
+  }, [dropdownOpen]);
 
   const motionProps = {
     initial: { opacity: 0, y: 32 },
@@ -148,7 +163,7 @@ export function UrlCard({
           x: 4,
           transition: { type: "tween", duration: 0.08, ease: "easeOut" },
         }}
-        className="url-card list-view-card"
+        className={`url-card list-view-card ${dropdownOpen ? "popover-open" : ""}`}
         style={accentStyle}
       >
         <div className="list-main">
@@ -158,23 +173,49 @@ export function UrlCard({
               <span className={`priority-badge ${priorityMeta.className}`}>
                 {priorityMeta.label}
               </span>
-              <div className="status-dropdown">
-                <select
-                  value={item.status || "Pending"}
-                  onChange={(e) => onStatusUpdate(item.id, e.target.value)}
-                  className={`status-select ${statusClass}`}
+              <div className="status-dropdown" ref={dropdownRef}>
+                <button
+                  type="button"
+                  className={`status-select-trigger ${statusClass} ${dropdownOpen ? "open" : ""}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setDropdownOpen(!dropdownOpen);
+                  }}
                 >
-                  {STATUSES.map((s) => (
-                    <option key={s} value={s}>
-                      {s}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown
-                  size={14}
-                  className="status-chevron"
-                  aria-hidden="true"
-                />
+                  <span>{item.status || "Pending"}</span>
+                  <ChevronDown size={13} className="status-chevron" />
+                </button>
+                <AnimatePresence>
+                  {dropdownOpen && (
+                    <motion.ul
+                      initial={{ opacity: 0, y: -6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -6 }}
+                      transition={{ duration: 0.12 }}
+                      className="status-dropdown-menu"
+                    >
+                      {STATUSES.map((s) => {
+                        const currentClass = s.replace(/\s+/g, "").toLowerCase();
+                        return (
+                          <li
+                            key={s}
+                            className={`status-dropdown-item ${currentClass} ${
+                              item.status === s ? "selected" : ""
+                            }`}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onStatusUpdate(item.id, s);
+                              setDropdownOpen(false);
+                            }}
+                          >
+                            <span className="status-dot"></span>
+                            <span>{s}</span>
+                          </li>
+                        );
+                      })}
+                    </motion.ul>
+                  )}
+                </AnimatePresence>
               </div>
             </div>
           </div>
@@ -186,7 +227,13 @@ export function UrlCard({
           <div className="list-meta-row">
             {item.folder && (
               <span className="folder-tag">
-                <Folder size={12} />
+                {folderEmojis[item.folder] ? (
+                  <span className="card-folder-emoji" style={{ marginRight: "4px" }}>
+                    {folderEmojis[item.folder]}
+                  </span>
+                ) : (
+                  <Folder size={12} />
+                )}
                 {item.folder}
               </span>
             )}
@@ -251,7 +298,7 @@ export function UrlCard({
         y: -6,
         transition: { type: "tween", duration: 0.08, ease: "easeOut" },
       }}
-      className={`url-card ${viewMode === "list" ? "list-view-card" : ""}`}
+      className={`url-card ${viewMode === "list" ? "list-view-card" : ""} ${dropdownOpen ? "popover-open" : ""}`}
       style={accentStyle}
     >
       <div className="card-header">
@@ -316,7 +363,13 @@ export function UrlCard({
         <div className="card-meta">
           {item.folder && (
             <span className="folder-tag">
-              <Folder size={12} />
+              {folderEmojis[item.folder] ? (
+                <span className="card-folder-emoji" style={{ marginRight: "4px" }}>
+                  {folderEmojis[item.folder]}
+                </span>
+              ) : (
+                <Folder size={12} />
+              )}
               {item.folder}
             </span>
           )}
@@ -329,23 +382,49 @@ export function UrlCard({
             {formattedDate}
           </span>
         </div>
-        <div className="status-dropdown">
-          <select
-            value={item.status || "Pending"}
-            onChange={(e) => onStatusUpdate(item.id, e.target.value)}
-            className={`status-select ${statusClass}`}
+        <div className="status-dropdown" ref={dropdownRef}>
+          <button
+            type="button"
+            className={`status-select-trigger ${statusClass} ${dropdownOpen ? "open" : ""}`}
+            onClick={(e) => {
+              e.preventDefault();
+              setDropdownOpen(!dropdownOpen);
+            }}
           >
-            {STATUSES.map((s) => (
-              <option key={s} value={s}>
-                {s}
-              </option>
-            ))}
-          </select>
-          <ChevronDown
-            size={14}
-            className="status-chevron"
-            aria-hidden="true"
-          />
+            <span>{item.status || "Pending"}</span>
+            <ChevronDown size={13} className="status-chevron" />
+          </button>
+          <AnimatePresence>
+            {dropdownOpen && (
+              <motion.ul
+                initial={{ opacity: 0, y: -6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.12 }}
+                className="status-dropdown-menu"
+              >
+                {STATUSES.map((s) => {
+                  const currentClass = s.replace(/\s+/g, "").toLowerCase();
+                  return (
+                    <li
+                      key={s}
+                      className={`status-dropdown-item ${currentClass} ${
+                        item.status === s ? "selected" : ""
+                      }`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onStatusUpdate(item.id, s);
+                        setDropdownOpen(false);
+                      }}
+                    >
+                      <span className="status-dot"></span>
+                      <span>{s}</span>
+                    </li>
+                  );
+                })}
+              </motion.ul>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </motion.div>
