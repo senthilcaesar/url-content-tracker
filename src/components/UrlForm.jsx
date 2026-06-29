@@ -368,36 +368,35 @@ export function UrlForm({
                 </div>
               </div>
 
-              {/* Title & Desc Grid */}
-              <div className="hud-grid-row">
-                <div className="hud-form-group">
-                  <label className="hud-input-label">DISPLAY TITLE</label>
+              {/* Title & Date Inputs */}
+              <div className="hud-form-group">
+                <label className="hud-input-label">DISPLAY TITLE</label>
+                <input
+                  type="text"
+                  placeholder="Identify this stream..."
+                  value={formData.title}
+                  onChange={(e) =>
+                    setFormData({ ...formData, title: e.target.value })
+                  }
+                  className="hud-input"
+                />
+              </div>
+
+              <div className="hud-form-group">
+                <label className="hud-input-label">DATE</label>
+                <div className="hud-date-wrapper">
+                  <Calendar size={14} className="date-icon" />
                   <input
-                    type="text"
-                    placeholder="Identify this stream..."
-                    value={formData.title}
+                    type="date"
+                    value={formData.createdDate}
                     onChange={(e) =>
-                      setFormData({ ...formData, title: e.target.value })
+                      setFormData({
+                        ...formData,
+                        createdDate: e.target.value,
+                      })
                     }
-                    className="hud-input"
+                    className="hud-input date-input"
                   />
-                </div>
-                <div className="hud-form-group">
-                  <label className="hud-input-label">DATE</label>
-                  <div className="hud-date-wrapper">
-                    <Calendar size={14} className="date-icon" />
-                    <input
-                      type="date"
-                      value={formData.createdDate}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          createdDate: e.target.value,
-                        })
-                      }
-                      className="hud-input date-input"
-                    />
-                  </div>
                 </div>
               </div>
 
