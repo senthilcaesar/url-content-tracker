@@ -369,17 +369,25 @@ function App() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
-              {searchQuery && (
-                <button
-                  type="button"
-                  className="search-clear-btn"
-                  onClick={() => setSearchQuery("")}
-                  title="Clear search"
-                  aria-label="Clear search"
-                >
-                  <X size={16} />
-                </button>
-              )}
+              <AnimatePresence>
+                {searchQuery && (
+                  <motion.button
+                    type="button"
+                    className="search-clear-btn"
+                    onClick={() => setSearchQuery("")}
+                    title="Clear search"
+                    aria-label="Clear search"
+                    initial={{ opacity: 0, scale: 0.5, rotate: -45 }}
+                    animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                    exit={{ opacity: 0, scale: 0.5, rotate: 45 }}
+                    whileHover={{ scale: 1.15, rotate: 90 }}
+                    whileTap={{ scale: 0.85 }}
+                    transition={{ type: "spring", stiffness: 350, damping: 25 }}
+                  >
+                    <X size={16} />
+                  </motion.button>
+                )}
+              </AnimatePresence>
             </div>
           </div>
 
