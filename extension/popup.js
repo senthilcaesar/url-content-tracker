@@ -20,7 +20,7 @@ function loadActiveTab() {
       title = encodeURIComponent(tab.title || "");
     }
 
-    const baseUrl = "http://localhost:5174/";
+    const baseUrl = "https://senthilcaesar.github.io/url-content-tracker/";
     let frameUrl = `${baseUrl}?source=extension&layout=sidepanel`;
     if (url) {
       frameUrl += `&add_url=${url}&add_title=${title}`;
